@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://remotemysql.com:3306/aPtqQZyv3L
+    username: aPtqQZyv3L
+    password: U53m6uwG5M
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true

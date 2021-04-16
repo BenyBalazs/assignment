@@ -1,0 +1,34 @@
+package com.epam.training.ticketservice.commands;
+
+import com.epam.training.ticketservice.exception.NotAuthorizedLogInException;
+import com.epam.training.ticketservice.service.LogInService;
+import com.epam.training.ticketservice.exception.UserAlreadyLoggedInException;
+import com.epam.training.ticketservice.service.interfaces.LogInInterface;
+
+public class LogInCommand implements Command {
+
+    LogInInterface logInService;
+    String username;
+    String password;
+
+    public LogInCommand(LogInInterface logInService, String username, String password) {
+        this.logInService = logInService;
+        this.username = username;
+        this.password = password;
+    }
+
+    @Override
+    public String execute() {
+
+        try {
+            if (logInService.logIn(username, password))
+                return "";
+            return "Login failed due to incorrect credentials";
+        } catch (UserAlreadyLoggedInException e) {
+            return "Already Logged in";
+        } catch (NotAuthorizedLogInException e) {
+            return "";
+        }
+    }
+
+}

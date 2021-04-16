@@ -17,7 +17,7 @@ Feature: allow creating accounts and logging in
     And the user types the "describe account" command
     Then the next line of the output is "You are not signed in"
 
-  @grade2-requirement
+  @grade2-requirement@
   Scenario: the admin account can not be logged in with incorrect password
     When the user types the "sign in privileged admin asdQWE123" command
     Then the next line of the output is "Login failed due to incorrect credentials"
