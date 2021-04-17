@@ -4,14 +4,14 @@ import com.epam.training.ticketservice.exception.NotAuthorizedLogInException;
 import com.epam.training.ticketservice.exception.UserAlreadyLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.LogInInterface;
 
-public class LogInCommand implements Command {
+public class PrivilegedLogInCommand implements Command {
 
-    LogInInterface logInService;
+    LogInInterface privilegedLogInService;
     String username;
     String password;
 
-    public LogInCommand(LogInInterface logInService, String username, String password) {
-        this.logInService = logInService;
+    public PrivilegedLogInCommand(LogInInterface privilegedLogInService, String username, String password) {
+        this.privilegedLogInService = privilegedLogInService;
         this.username = username;
         this.password = password;
     }
@@ -20,15 +20,14 @@ public class LogInCommand implements Command {
     public String execute() {
 
         try {
-            if (logInService.logIn(username, password)) {
+            if (privilegedLogInService.logIn(username,password)) {
                 return "";
             }
             return "Login failed due to incorrect credentials.";
         } catch (UserAlreadyLoggedInException e) {
             return "Already Logged in.";
         } catch (NotAuthorizedLogInException e) {
-            return "";
+            return "You can not log in privileged with non administrator account.";
         }
     }
-
 }

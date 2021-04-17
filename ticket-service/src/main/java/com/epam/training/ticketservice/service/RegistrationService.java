@@ -16,8 +16,9 @@ public class RegistrationService implements RegistrationInterface {
 
     public boolean register(User user) {
 
-        if(userRepository.findById(user.getUsername()).isPresent())
+        if (userRepository.findById(user.getUsername()).isPresent()) {
             return false;
+        }
 
         userRepository.save(user);
         return true;

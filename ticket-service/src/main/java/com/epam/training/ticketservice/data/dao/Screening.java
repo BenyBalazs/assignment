@@ -11,23 +11,18 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"movie","roomOfscreening","startOfScreening"}))
 public class Screening {
 
-    @EmbeddedId
-    ScreeningPk screeningPk;
-    LocalDate endOfScreening;
-
-    @MapsId("title")
-    @JoinColumns({
-            @JoinColumn(name="title", referencedColumnName="title")
-    })
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
+    @JoinColumn(name = "movie")
     @ManyToOne
     private Movie movie;
-
-    @MapsId("roomName")
-    @JoinColumns({
-            @JoinColumn(name="roomName", referencedColumnName="roomName")
-    })
+    @JoinColumn(name = "roomOfscreening")
     @ManyToOne
-    private Room room;
+    private Room roomOfScreening;
+    private LocalDate startOfScreening;
+    private LocalDate endOfScreening;
 }

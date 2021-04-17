@@ -1,3 +1,4 @@
+package com.epam.training.ticketservice.service;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -32,7 +33,7 @@ public class LogInServiceTest {
     private List<User> users;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         users = new ArrayList<>();
         activeUserStore.setActiveUser(null);
         when(this.userRepository.findById(Mockito.any(String.class))).

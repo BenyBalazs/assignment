@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -19,5 +20,9 @@ public class Room {
     private String roomName;
 
     @OneToMany(mappedBy = "room")
-    List<Screening> screeningList;
+    List<Seat> seats;
+
+    @OneToMany(mappedBy = "roomOfScreening",
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    private List<Screening> screeningList;
 }
