@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -23,6 +24,8 @@ public class Screening {
     @JoinColumn(name = "roomOfscreening")
     @ManyToOne
     private Room roomOfScreening;
-    private LocalDate startOfScreening;
-    private LocalDate endOfScreening;
+    @Column(nullable = false)
+    private LocalDateTime startOfScreening;
+    @Column(nullable = false)
+    private LocalDateTime endOfScreening;
 }

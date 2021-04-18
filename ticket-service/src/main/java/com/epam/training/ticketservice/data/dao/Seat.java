@@ -19,6 +19,6 @@ public class Seat {
     Integer colPosition;
 
     @ManyToOne
-    @JoinColumn(name = "room")
+    @JoinColumn(name = "roomName")
     Room room;
 }

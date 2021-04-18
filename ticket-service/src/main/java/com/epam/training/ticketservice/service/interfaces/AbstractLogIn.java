@@ -4,7 +4,9 @@ import com.epam.training.ticketservice.ActiveUserStore;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
 import com.epam.training.ticketservice.exception.UserAlreadyLoggedInException;
+import org.springframework.stereotype.Service;
 
+@Service
 public abstract class AbstractLogIn implements LogInInterface {
 
     UserRepository userRepository;
