@@ -16,7 +16,7 @@ public class RegisterCommandHandler {
 
     @ShellMethod(value = "Registers new User into the application.", key = "sign up")
     public String register(String username, String password) {
-        RegisterCommand registerCommand = new RegisterCommand(registrationService ,username, password);
+        RegisterCommand registerCommand = new RegisterCommand(registrationService, username, password);
 
         return registerCommand.execute();
     }

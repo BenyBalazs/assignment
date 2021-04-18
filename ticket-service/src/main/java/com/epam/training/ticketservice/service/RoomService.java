@@ -49,7 +49,7 @@ public class RoomService implements RoomServiceInterface {
     public boolean deleteRoom(String name) {
         Room roomToDelete = roomRepository.findById(name).orElse(null);
 
-        if(roomToDelete == null) {
+        if (roomToDelete == null) {
             return false;
         }
 

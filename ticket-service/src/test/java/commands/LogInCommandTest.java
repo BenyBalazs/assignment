@@ -1,15 +1,22 @@
-package com.epam.training.ticketservice.service;
+package commands;
 
 import com.epam.training.ticketservice.ActiveUserStore;
+import com.epam.training.ticketservice.Application;
 import com.epam.training.ticketservice.commands.LogInCommand;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
+import com.epam.training.ticketservice.service.LogInService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +48,6 @@ public class LogInCommandTest {
     @Test
     public void testCommandShouldReturnEmptyStringWhenLogInWasSuccessful() {
         users.add(new User("admin", "admin", User.Role.ADMIN));
-
         logInCommand = new LogInCommand(logInService, "admin", "admin");
 
         assertThat(logInCommand.execute(), equalTo(""));
@@ -50,7 +56,6 @@ public class LogInCommandTest {
     @Test
     public void testCommandShouldReturnLoginFailureStringWhenInvalidCredentialsAreGiven() {
         users.add(new User("admin", "admin", User.Role.ADMIN));
-
         logInCommand = new LogInCommand(logInService, "admin2", "admin");
 
         assertThat(logInCommand.execute(), equalTo("Login failed due to incorrect credentials."));
@@ -59,7 +64,6 @@ public class LogInCommandTest {
     @Test
     public void testCommandShouldReturnAlreadyLoggedInStringWhenTryingToLogInWhenAlreadyLoggedIn() {
         users.add(new User("admin", "admin", User.Role.ADMIN));
-
         logInCommand = new LogInCommand(logInService, "admin", "admin");
         logInCommand.execute();
 

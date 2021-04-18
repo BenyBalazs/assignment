@@ -14,5 +14,6 @@ import java.time.LocalDateTime;
 public interface ScreeningRepository extends JpaRepository<Screening, Integer> {
 
     Screening findByMovieAndRoomOfScreeningAndStartOfScreening(Movie movie, Room room, LocalDateTime startOfScreening);
+
     Screening findByStartOfScreening(LocalDateTime startOfScreening);
 }

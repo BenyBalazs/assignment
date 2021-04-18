@@ -20,7 +20,9 @@ public class ScreeningService implements ScreeningServiceInterface {
     MovieRepository movieRepository;
     RoomRepository roomRepository;
 
-    public ScreeningService(ScreeningRepository screeningRepository, MovieRepository movieRepository, RoomRepository roomRepository) {
+    public ScreeningService(ScreeningRepository screeningRepository,
+                            MovieRepository movieRepository,
+                            RoomRepository roomRepository) {
         this.screeningRepository = screeningRepository;
         this.movieRepository = movieRepository;
         this.roomRepository = roomRepository;
@@ -30,7 +32,6 @@ public class ScreeningService implements ScreeningServiceInterface {
     public boolean createScreening(String movieTitle, String roomName, LocalDateTime startOfScreening)
             throws OverlappingScreeningException {
 
-        Screening screeningToCreate;
 
         Movie movieToScreen = movieRepository.findById(movieTitle).orElse(null);
 
@@ -47,7 +48,7 @@ public class ScreeningService implements ScreeningServiceInterface {
             throw new OverlappingScreeningException();
         }
 
-        screeningToCreate = new Screening();
+        Screening screeningToCreate = new Screening();
         screeningToCreate.setMovie(movieToScreen);
         screeningToCreate.setRoomOfScreening(roomOfScreening);
         screeningToCreate.setStartOfScreening(startOfScreening);
@@ -70,10 +71,10 @@ public class ScreeningService implements ScreeningServiceInterface {
 
     private boolean canCreateScreening(LocalDateTime startOfScreening, Room room) {
         List<Screening> screeningList = screeningRepository.findAll();
-        return screeningList.stream().
-                anyMatch(x -> x.getRoomOfScreening().equals(room) &&
-                        x.getStartOfScreening().compareTo(startOfScreening) * startOfScreening.
-                                compareTo(x.getEndOfScreening()) > 0);
+        return screeningList.stream()
+                .anyMatch(x -> x.getRoomOfScreening().equals(room)
+                        && x.getStartOfScreening().compareTo(startOfScreening)
+                        * startOfScreening.compareTo(x.getEndOfScreening()) > 0);
     }
 
     private LocalDateTime calculateEndOfScreening(LocalDateTime start, int length) {

@@ -2,7 +2,7 @@ package com.epam.training.ticketservice.commands;
 
 import com.epam.training.ticketservice.service.interfaces.SignOutInterface;
 
-public class SignOutCommand implements Command{
+public class SignOutCommand implements Command {
 
     private SignOutInterface signOutService;
 

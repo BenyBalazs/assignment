@@ -19,8 +19,7 @@ public class RegisterCommand implements Command {
     public String execute() {
         if (registrationService.register(new User(username, password, User.Role.USER))) {
             return "Sign up was successful";
-        }
-        else {
+        } else {
             return "Username is taken";
         }
     }

@@ -10,7 +10,10 @@ import java.util.List;
 @Service
 public interface ScreeningServiceInterface {
 
-    boolean createScreening(String movieTitle, String roomName, LocalDateTime startOfScreening) throws OverlappingScreeningException;
+    boolean createScreening(String movieTitle, String roomName, LocalDateTime startOfScreening)
+            throws OverlappingScreeningException;
+
     boolean deleteScreening(String movieTitle, String roomName, LocalDateTime startOfScreening);
+
     List<Screening> getAllScreening();
 }
