@@ -16,7 +16,7 @@ public class AccountDescribeCommand implements Command {
     public String execute() {
 
         try {
-            User user = accountDescribeService.getUserRole();
+            User user = accountDescribeService.getUser();
             //TODO LEFOGLALT JEGYEK LISTÁZÁSA
             if (User.Role.USER.equals(user.getRole())) {
                 return "Signed in with account" + " '" + user.getUsername() + "'";

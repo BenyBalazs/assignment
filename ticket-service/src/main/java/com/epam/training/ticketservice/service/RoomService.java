@@ -22,6 +22,10 @@ public class RoomService implements RoomServiceInterface {
     @Override
     public boolean createRoom(String name, int columns, int rows) {
 
+        if (roomRepository.findById(name).isPresent()) {
+            return false;
+        }
+
         Room roomToCreate = new Room();
         roomToCreate.setRoomName(name);
         roomRepository.save(roomToCreate);
@@ -41,6 +45,7 @@ public class RoomService implements RoomServiceInterface {
         }
 
         roomToModify.setSeats(seatService.createSeats(columns, rows));
+        roomRepository.save(roomToModify);
 
         return true;
     }

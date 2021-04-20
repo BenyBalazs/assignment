@@ -34,7 +34,7 @@ public class MovieService implements MovieServiceInterface {
     }
 
     @Override
-    public boolean modifyRoom(String title, String genre, int length) {
+    public boolean modifyMovie(String title, String genre, int length) {
 
         Movie movieToModify = movieRepository.findById(title).orElse(null);
 
@@ -56,7 +56,7 @@ public class MovieService implements MovieServiceInterface {
     }
 
     @Override
-    public boolean deleteRoom(String title) {
+    public boolean deleteMovie(String title) {
 
         Movie movieToDelete = movieRepository.findById(title).orElse(null);
 

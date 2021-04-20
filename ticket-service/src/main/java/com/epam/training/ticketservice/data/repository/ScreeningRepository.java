@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -15,5 +16,5 @@ public interface ScreeningRepository extends JpaRepository<Screening, Integer> {
 
     Screening findByMovieAndRoomOfScreeningAndStartOfScreening(Movie movie, Room room, LocalDateTime startOfScreening);
 
-    Screening findByStartOfScreening(LocalDateTime startOfScreening);
+    List<Screening> findAllByRoomOfScreening(Room roomOfScreening);
 }

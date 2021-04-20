@@ -7,5 +7,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface AccountDescribeInterface {
 
-    User getUserRole() throws UserNotLoggedInException;
+    User getUser() throws UserNotLoggedInException;
 }
