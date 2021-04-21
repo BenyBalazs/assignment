@@ -1,6 +1,8 @@
 package com.epam.training.ticketservice.commands.movie;
 
 import com.epam.training.ticketservice.commands.Command;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
+import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.MovieServiceInterface;
 
 public class CreateMovieCommand implements Command {
@@ -10,7 +12,10 @@ public class CreateMovieCommand implements Command {
     String genre;
     int length;
 
-    public CreateMovieCommand(MovieServiceInterface movieService, String tile, String genre, int length) {
+    public CreateMovieCommand(MovieServiceInterface movieService,
+                              String tile,
+                              String genre,
+                              int length) {
         this.movieService = movieService;
         this.tile = tile;
         this.genre = genre;
@@ -20,10 +25,14 @@ public class CreateMovieCommand implements Command {
     @Override
     public String execute() {
 
-        if (movieService.createMovie(tile, genre, length)) {
-            return "";
-        } else {
-            return "This movie is already created";
+        try {
+            if (movieService.createMovie(tile, genre, length)) {
+                return "";
+            } else {
+                return "This movie is already created";
+            }
+        } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
+            return e.getMessage();
         }
 
     }

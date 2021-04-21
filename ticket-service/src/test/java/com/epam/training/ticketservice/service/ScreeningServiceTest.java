@@ -6,17 +6,13 @@ import com.epam.training.ticketservice.data.dao.Screening;
 import com.epam.training.ticketservice.data.repository.MovieRepository;
 import com.epam.training.ticketservice.data.repository.RoomRepository;
 import com.epam.training.ticketservice.data.repository.ScreeningRepository;
-import com.epam.training.ticketservice.data.repository.SeatRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.mockito.Mockito.doAnswer;
@@ -31,6 +27,8 @@ public class ScreeningServiceTest {
     MovieRepository movieRepository;
     @MockBean
     RoomRepository roomRepository;
+    @MockBean
+    AuthorizationService authorizationService;
     List<Screening> screeningList;
     List<Movie> movieList;
     List<Room> roomList;
@@ -41,7 +39,7 @@ public class ScreeningServiceTest {
         screeningList = new ArrayList<>();
         movieList = new ArrayList<>();
         roomList = new ArrayList<>();
-        screeningService = new ScreeningService(screeningRepository, movieRepository, roomRepository, new ScreeningValidator());
+        screeningService = new ScreeningService(screeningRepository, movieRepository, roomRepository, new ScreeningValidator(),authorizationService);
         movieRepository = Mockito.mock(MovieRepository.class);
         when(this.movieRepository.findById(Mockito.any(String.class)))
                 .then( x -> movieList.stream().filter(y -> x.getArgument(0).equals(y.getTitle())).findFirst());

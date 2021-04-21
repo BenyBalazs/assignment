@@ -28,4 +28,9 @@ public class Movie {
     @OneToMany(mappedBy = "movie",
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<Screening> screeningList;
+
+    @Override
+    public String toString() {
+        return  title + "( " + genre + ", " + length + " minutes)";
+    }
 }

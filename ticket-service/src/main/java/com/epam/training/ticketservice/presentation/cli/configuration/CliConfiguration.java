@@ -9,6 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CliConfiguration {
 
     @Bean
+    public String notSignInMassage() {
+        return "You are not signed in";
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

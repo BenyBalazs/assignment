@@ -1,15 +1,17 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.ActionResult;
 import com.epam.training.ticketservice.data.dao.Movie;
 import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.data.dao.Screening;
+import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.MovieRepository;
 import com.epam.training.ticketservice.data.repository.RoomRepository;
 import com.epam.training.ticketservice.data.repository.ScreeningRepository;
-import com.epam.training.ticketservice.exception.OverlappingScreeningException;
-import com.epam.training.ticketservice.exception.ScreeningInTheBrakePeriodException;
-import com.epam.training.ticketservice.service.interfaces.ScreeningServiceInterface;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
+import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.ScreeningHelperUtilityInterface;
+import com.epam.training.ticketservice.service.interfaces.ScreeningServiceInterface;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,38 +40,43 @@ public class ScreeningService implements ScreeningServiceInterface {
     }
 
     @Override
-    public boolean createScreening(String movieTitle, String roomName, LocalDateTime startOfScreening)
-            throws OverlappingScreeningException, ScreeningInTheBrakePeriodException {
+    public ActionResult createScreening(String movieTitle, String roomName, LocalDateTime startOfScreening)
+            throws UserNotLoggedInException, NotAuthorizedOperationException {
+
+        authorizationService.userHasRoles(User.Role.ADMIN);
 
         Movie movieToScreen = movieRepository.findById(movieTitle).orElse(null);
 
         if (movieToScreen == null) {
-            return false;
+            return new ActionResult("Movie does not exists", false);
         }
 
         Room roomOfScreening = roomRepository.findById(roomName).orElse(null);
 
         if (roomOfScreening == null) {
-            return false;
+            return new ActionResult("Room does not exists", false);
         }
 
         List<Screening> screeningsInTheSameRoom = screeningRepository.findAllByRoomOfScreening(roomOfScreening);
 
         if (screeningValidator.isOverlappingScreening(screeningsInTheSameRoom, startOfScreening)) {
-            throw new OverlappingScreeningException();
+            return new ActionResult("Overlapping", false);
         }
 
         if (screeningValidator.screeningInTheBrakePeriod(screeningsInTheSameRoom, startOfScreening)) {
-            throw new ScreeningInTheBrakePeriodException();
+            return new ActionResult("BrakePeriod", false);
         }
 
         screeningRepository.save(createScreeningInstance(movieToScreen, roomOfScreening, startOfScreening));
 
-        return true;
+        return new ActionResult("Screening created", false);
     }
 
     @Override
-    public boolean deleteScreening(String movieTitle, String roomName, LocalDateTime startOfScreening) {
+    public boolean deleteScreening(String movieTitle, String roomName, LocalDateTime startOfScreening)
+            throws UserNotLoggedInException, NotAuthorizedOperationException {
+
+        authorizationService.userHasRoles(User.Role.ADMIN);
 
         Optional<Movie> movie = movieRepository.findById(movieTitle);
         Optional<Room> room = roomRepository.findById(roomName);

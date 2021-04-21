@@ -6,6 +6,9 @@ import com.epam.training.ticketservice.exception.NotAuthorizedOperationException
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 public class AuthorizationService {
 
@@ -15,13 +18,22 @@ public class AuthorizationService {
         this.activeUserStore = activeUserStore;
     }
 
-    public void userIsAdminAndLoggedIn() throws UserNotLoggedInException, NotAuthorizedOperationException {
-
+    public void userIsLoggedIn() throws UserNotLoggedInException {
         if (activeUserStore.getActiveUser() == null) {
             throw new UserNotLoggedInException();
         }
+    }
 
-        if (User.Role.USER.equals(activeUserStore.getActiveUser().getRole())) {
+    public void userHasRoles(User.Role... roles) throws UserNotLoggedInException, NotAuthorizedOperationException {
+        userHasRole(Arrays.asList(roles));
+    }
+
+    private void userHasRole(List<User.Role> acceptedRoles) throws NotAuthorizedOperationException,
+            UserNotLoggedInException {
+
+        userIsLoggedIn();
+
+        if (!acceptedRoles.contains(activeUserStore.getActiveUser().getRole())) {
             throw new NotAuthorizedOperationException();
         }
     }
