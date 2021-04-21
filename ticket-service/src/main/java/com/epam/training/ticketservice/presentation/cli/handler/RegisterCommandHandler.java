@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
-import com.epam.training.ticketservice.commands.RegisterCommand;
+import com.epam.training.ticketservice.commands.account.RegisterCommand;
 import com.epam.training.ticketservice.service.interfaces.RegistrationInterface;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;

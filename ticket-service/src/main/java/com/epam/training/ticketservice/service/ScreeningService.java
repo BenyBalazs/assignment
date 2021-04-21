@@ -23,15 +23,18 @@ public class ScreeningService implements ScreeningServiceInterface {
     MovieRepository movieRepository;
     RoomRepository roomRepository;
     ScreeningHelperUtilityInterface screeningValidator;
+    AuthorizationService authorizationService;
 
     public ScreeningService(ScreeningRepository screeningRepository,
                             MovieRepository movieRepository,
                             RoomRepository roomRepository,
-                            ScreeningHelperUtilityInterface screeningValidator) {
+                            ScreeningHelperUtilityInterface screeningValidator,
+                            AuthorizationService authorizationService) {
         this.screeningRepository = screeningRepository;
         this.movieRepository = movieRepository;
         this.roomRepository = roomRepository;
         this.screeningValidator = screeningValidator;
+        this.authorizationService = authorizationService;
     }
 
     @Override

@@ -1,5 +1,6 @@
-package com.epam.training.ticketservice.commands;
+package com.epam.training.ticketservice.commands.account;
 
+import com.epam.training.ticketservice.commands.Command;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.AccountDescribeInterface;

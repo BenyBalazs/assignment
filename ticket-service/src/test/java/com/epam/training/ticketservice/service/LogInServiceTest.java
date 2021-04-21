@@ -6,10 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import com.epam.training.ticketservice.ActiveUserStore;
-import com.epam.training.ticketservice.service.LogInService;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
-import com.epam.training.ticketservice.exception.NotAuthorizedLogInException;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserAlreadyLoggedInException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -62,7 +61,7 @@ public class LogInServiceTest {
     }
 
     @Test
-    public void testShouldThrowUserAlreadyLoggedInExceptionWhenUserAlreadyLoggedIn() throws UserAlreadyLoggedInException, NotAuthorizedLogInException {
+    public void testShouldThrowUserAlreadyLoggedInExceptionWhenUserAlreadyLoggedIn() throws UserAlreadyLoggedInException, NotAuthorizedOperationException {
         users.add(new User("admin","admin", User.Role.ADMIN));
         logInService.logIn("admin","admin");
 

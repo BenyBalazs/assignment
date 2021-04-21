@@ -2,6 +2,8 @@ package com.epam.training.ticketservice.service;
 
 import com.epam.training.ticketservice.data.dao.Movie;
 import com.epam.training.ticketservice.data.repository.MovieRepository;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
+import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.MovieServiceInterface;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +13,19 @@ import java.util.List;
 public class MovieService implements MovieServiceInterface {
 
     private MovieRepository movieRepository;
+    private AuthorizationService authorizationService;
 
-    public MovieService(MovieRepository movieRepository) {
+    public MovieService(MovieRepository movieRepository, AuthorizationService authorizationService) {
         this.movieRepository = movieRepository;
+        this.authorizationService = authorizationService;
     }
 
     @Override
-    public boolean createMovie(String title, String genre, int length) {
+    public boolean createMovie(String title, String genre, int length) throws UserNotLoggedInException, NotAuthorizedOperationException {
 
-        if (movieRepository.findById(title).isPresent()) {
+        authorizationService.userIsAdminAndLoggedIn();
+
+        if (!doesTheEntityExists(title)) {
             return false;
         }
 
@@ -34,11 +40,13 @@ public class MovieService implements MovieServiceInterface {
     }
 
     @Override
-    public boolean modifyMovie(String title, String genre, int length) {
+    public boolean modifyMovie(String title, String genre, int length) throws UserNotLoggedInException, NotAuthorizedOperationException {
 
-        Movie movieToModify = movieRepository.findById(title).orElse(null);
+        authorizationService.userIsAdminAndLoggedIn();
 
-        if (movieToModify == null) {
+        Movie movieToModify = findMovie(title);
+
+        if (doesTheEntityExists(title)) {
             return false;
         }
 
@@ -56,16 +64,28 @@ public class MovieService implements MovieServiceInterface {
     }
 
     @Override
-    public boolean deleteMovie(String title) {
+    public boolean deleteMovie(String title) throws UserNotLoggedInException, NotAuthorizedOperationException {
 
-        Movie movieToDelete = movieRepository.findById(title).orElse(null);
+        authorizationService.userIsAdminAndLoggedIn();
 
-        if (movieToDelete == null) {
+        Movie movieToDelete = findMovie(title);
+
+        if (doesTheEntityExists(title)) {
             return false;
         }
 
         movieRepository.delete(movieToDelete);
 
         return true;
+    }
+
+    private boolean doesTheEntityExists(String title) {
+
+        Movie movieToCreate = findMovie(title);
+
+        return movieToCreate == null;
+    }
+    private Movie findMovie(String title) {
+        return movieRepository.findById(title).orElse(null);
     }
 }

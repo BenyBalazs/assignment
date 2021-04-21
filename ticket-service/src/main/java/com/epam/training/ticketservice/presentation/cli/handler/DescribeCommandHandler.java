@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
-import com.epam.training.ticketservice.commands.AccountDescribeCommand;
+import com.epam.training.ticketservice.commands.account.AccountDescribeCommand;
 import com.epam.training.ticketservice.service.interfaces.AccountDescribeInterface;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;

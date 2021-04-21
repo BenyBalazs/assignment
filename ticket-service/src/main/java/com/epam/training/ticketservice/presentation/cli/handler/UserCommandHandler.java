@@ -1,9 +1,8 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
-import com.epam.training.ticketservice.commands.AccountDescribeCommand;
-import com.epam.training.ticketservice.commands.LogInCommand;
-import com.epam.training.ticketservice.commands.PrivilegedLogInCommand;
-import com.epam.training.ticketservice.commands.SignOutCommand;
+import com.epam.training.ticketservice.commands.account.LogInCommand;
+import com.epam.training.ticketservice.commands.account.PrivilegedLogInCommand;
+import com.epam.training.ticketservice.commands.account.SignOutCommand;
 import com.epam.training.ticketservice.service.LogInService;
 import com.epam.training.ticketservice.service.PrivilegedLogInService;
 import com.epam.training.ticketservice.service.interfaces.SignOutInterface;

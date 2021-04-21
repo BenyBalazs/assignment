@@ -3,7 +3,7 @@ package com.epam.training.ticketservice.service;
 import com.epam.training.ticketservice.ActiveUserStore;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
-import com.epam.training.ticketservice.exception.NotAuthorizedLogInException;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserAlreadyLoggedInException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,28 +40,28 @@ public class PrivilegedLogInCommandTest {
     }
 
     @Test
-    public void testShouldReturnTureWhenExistingAndCorrectUsernameAndPasswordComboIsGiven() throws UserAlreadyLoggedInException, NotAuthorizedLogInException {
+    public void testShouldReturnTureWhenExistingAndCorrectUsernameAndPasswordComboIsGiven() throws UserAlreadyLoggedInException, NotAuthorizedOperationException {
         users.add(new User("admin", "admin", User.Role.ADMIN));
 
         assertThat(privilegedLogInService.logIn("admin", "admin"), equalTo(true));
     }
 
     @Test
-    public void testShouldReturnFalseWhenPasswordIsInvalid() throws UserAlreadyLoggedInException, NotAuthorizedLogInException {
+    public void testShouldReturnFalseWhenPasswordIsInvalid() throws UserAlreadyLoggedInException, NotAuthorizedOperationException {
         users.add(new User("admin", "asdasdasdasdasd", User.Role.ADMIN));
 
         assertThat(privilegedLogInService.logIn("admin", "admin"), equalTo(false));
     }
 
     @Test
-    public void testShouldReturnFalseWhenUsernameIsInvalid() throws UserAlreadyLoggedInException, NotAuthorizedLogInException {
+    public void testShouldReturnFalseWhenUsernameIsInvalid() throws UserAlreadyLoggedInException, NotAuthorizedOperationException {
         users.add(new User("admin", "asdasdasdasdasd", User.Role.ADMIN));
 
         assertThat(privilegedLogInService.logIn("adminasdasdasdasd", "asdasdasdasdasd"), equalTo(false));
     }
 
     @Test
-    public void testShouldThrowUserAlreadyLoggedInExceptionWhenUserAlreadyLoggedIn() throws UserAlreadyLoggedInException, NotAuthorizedLogInException {
+    public void testShouldThrowUserAlreadyLoggedInExceptionWhenUserAlreadyLoggedIn() throws UserAlreadyLoggedInException, NotAuthorizedOperationException {
         users.add(new User("admin", "admin", User.Role.ADMIN));
         privilegedLogInService.logIn("admin", "admin");
 
@@ -72,7 +72,7 @@ public class PrivilegedLogInCommandTest {
     }
 
     @Test
-    public void testShouldSetTheActiveUserWhenTheLogInWasSuccessful() throws UserAlreadyLoggedInException, NotAuthorizedLogInException {
+    public void testShouldSetTheActiveUserWhenTheLogInWasSuccessful() throws UserAlreadyLoggedInException, NotAuthorizedOperationException {
         users.add(new User("admin", "admin", User.Role.ADMIN));
         privilegedLogInService.logIn("admin", "admin");
 
@@ -80,7 +80,7 @@ public class PrivilegedLogInCommandTest {
     }
 
     @Test
-    public void testShouldNotSetTheActiveUserWhenTheLogInWasNotSuccessful() throws UserAlreadyLoggedInException, NotAuthorizedLogInException {
+    public void testShouldNotSetTheActiveUserWhenTheLogInWasNotSuccessful() throws UserAlreadyLoggedInException, NotAuthorizedOperationException {
         users.add(new User("admin", "admin", User.Role.ADMIN));
         privilegedLogInService.logIn("admin", "admin2");
 
@@ -91,7 +91,7 @@ public class PrivilegedLogInCommandTest {
     public void testShouldThrowNotAuthorizedLogInExceptionWhenTryingToLogInWithNonAdminAccount() {
         users.add(new User("admin", "admin", User.Role.USER));
 
-        assertThrows(NotAuthorizedLogInException.class, () -> {
+        assertThrows(NotAuthorizedOperationException.class, () -> {
             privilegedLogInService.logIn("admin", "admin");
         });
     }
