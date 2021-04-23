@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.commands;
+package com.epam.training.ticketservice;
 
 import java.util.List;
 import java.util.stream.Collectors;

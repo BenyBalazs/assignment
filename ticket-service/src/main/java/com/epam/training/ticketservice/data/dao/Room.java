@@ -37,7 +37,7 @@ public class Room {
 
     @OneToMany(mappedBy = "roomOfScreening",
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH },
-            orphanRemoval = false)
+            orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Screening> screeningList;
 

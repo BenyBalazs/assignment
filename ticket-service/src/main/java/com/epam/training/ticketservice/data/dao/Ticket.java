@@ -22,6 +22,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
     long ticketPk;
     int ticketPrice;
     @ManyToOne

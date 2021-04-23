@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.commands.screening;
 
 import com.epam.training.ticketservice.commands.Command;
-import com.epam.training.ticketservice.commands.Lister;
+import com.epam.training.ticketservice.Lister;
 import com.epam.training.ticketservice.data.dao.Screening;
 import com.epam.training.ticketservice.service.interfaces.ScreeningServiceInterface;
 

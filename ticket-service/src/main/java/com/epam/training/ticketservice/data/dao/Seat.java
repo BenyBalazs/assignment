@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.util.List;
 
 @Entity
@@ -21,18 +23,21 @@ import java.util.List;
 @EqualsAndHashCode
 @Getter
 @Setter
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"room","rowPosition","colPosition"}))
 public class Seat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer seatPk;
-    Integer colPosition;
+    @EqualsAndHashCode.Exclude
+    long seatPk;
     Integer rowPosition;
+    Integer colPosition;
 
     @ManyToOne
     @JoinColumn(name = "roomName")
     Room room;
 
     @OneToMany(mappedBy = "seat")
+    @EqualsAndHashCode.Exclude
     List<Ticket> tickets;
 }
