@@ -18,7 +18,7 @@ public class RegisterCommand implements Command {
 
     @Override
     public String execute() {
-        if (registrationService.register(new User(username, password, User.Role.USER))) {
+        if (registrationService.register(new User(username, password, User.Role.USER, null))) {
             return "Sign up was successful";
         } else {
             return "Username is taken";

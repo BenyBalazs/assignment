@@ -1,5 +1,10 @@
 package com.epam.training.ticketservice;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@EqualsAndHashCode
+@ToString
 public class ActionResult {
 
     private final String message;

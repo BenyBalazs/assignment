@@ -17,16 +17,16 @@ public class SeatService implements SeatServiceInterface {
         this.seatRepository = seatRepository;
     }
 
-    public List<Seat> createSeats(int cols, int rows) {
+    public List<Seat> createSeats(int rows, int cols) {
 
         List<Seat> seats = new LinkedList<>();
 
-        for (int i = 0; i < cols; i++) {
-            for (int j = 0; j < rows; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 Seat seatToAdd = new Seat();
                 seatToAdd.setColPosition(i);
                 seatToAdd.setRowPosition(j);
-                seatRepository.save(seatToAdd);
+                //seatRepository.save(seatToAdd);
                 seats.add(seatToAdd);
             }
         }

@@ -7,5 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface LogInInterface {
 
-    boolean logIn(String username, String password) throws UserAlreadyLoggedInException, NotAuthorizedOperationException;
+    boolean logIn(String username, String password)
+            throws UserAlreadyLoggedInException, NotAuthorizedOperationException;
 }

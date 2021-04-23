@@ -1,21 +1,30 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.ActionResult;
+import com.epam.training.ticketservice.ActiveUserStore;
 import com.epam.training.ticketservice.data.dao.Movie;
 import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.data.dao.Screening;
+import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.MovieRepository;
 import com.epam.training.ticketservice.data.repository.RoomRepository;
 import com.epam.training.ticketservice.data.repository.ScreeningRepository;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
+import com.epam.training.ticketservice.exception.UserNotLoggedInException;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.mockito.Mockito.doAnswer;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 public class ScreeningServiceTest {
@@ -27,8 +36,11 @@ public class ScreeningServiceTest {
     MovieRepository movieRepository;
     @MockBean
     RoomRepository roomRepository;
-    @MockBean
     AuthorizationService authorizationService;
+    @MockBean
+    ActiveUserStore activeUserStore;
+    @MockBean
+    ScreeningValidator screeningValidator;
     List<Screening> screeningList;
     List<Movie> movieList;
     List<Room> roomList;
@@ -36,61 +48,60 @@ public class ScreeningServiceTest {
 
     @BeforeEach
     public void setUp() {
-        screeningList = new ArrayList<>();
-        movieList = new ArrayList<>();
-        roomList = new ArrayList<>();
-        screeningService = new ScreeningService(screeningRepository, movieRepository, roomRepository, new ScreeningValidator(),authorizationService);
-        movieRepository = Mockito.mock(MovieRepository.class);
-        when(this.movieRepository.findById(Mockito.any(String.class)))
-                .then( x -> movieList.stream().filter(y -> x.getArgument(0).equals(y.getTitle())).findFirst());
-
-        doAnswer(x -> movieList.add(x.getArgument(0)))
-                .when(movieRepository).save(Mockito.mock(Movie.class));
-
-        doAnswer(x -> movieList.remove(x.getArgument(0)))
-                .when(movieRepository).delete(Mockito.any(Movie.class));
-
-        when(this.movieRepository.findAll()).then(x -> movieList);
-
-        roomRepository = Mockito.mock(RoomRepository.class);
-        when(this.roomRepository.findById(Mockito.any(String.class)))
-                .then( x -> roomList.stream().filter(y -> x.getArgument(0).equals(y.getRoomName())).findFirst());
-
-        doAnswer(x -> roomList.add(x.getArgument(0)))
-                .when(roomRepository).save(Mockito.mock(Room.class));
-
-        doAnswer(x -> roomList.remove(x.getArgument(0)))
-                .when(roomRepository).delete(Mockito.any(Room.class));
-
-        when(this.roomRepository.findAll()).thenReturn(roomList);
-
-        screeningRepository = Mockito.mock(ScreeningRepository.class);
-        when(this.screeningRepository.findById(Mockito.any(Integer.class)))
-                .then( x -> roomList.stream().filter(y -> x.getArgument(0).equals(y.getRoomName())).findFirst());
-
-        doAnswer(x -> roomList.add(x.getArgument(0)))
-                .when(screeningRepository).save(Mockito.mock(Screening.class));
-
-        doAnswer(x -> roomList.remove(x.getArgument(0)))
-                .when(screeningRepository).delete(Mockito.any(Screening.class));
-
-        when(this.screeningRepository.findAll()).thenReturn(screeningList);
-
+        activeUserStore =  Mockito.mock(ActiveUserStore.class);
         dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-        Screening screening = new Screening();
-        screening.setId(1);
-        screening.setStartOfScreening(LocalDateTime.parse("2021-04-20 16:12",dateTimeFormatter));
-        Movie movie = new Movie();
-        movie.setTitle("asd");
-        movie.setLength(120);
-        movie.setGenre("asdasd");
-        screening.setMovie(movie);
-        Room room = new Room();
-        room.setRoomName("asdasd");
-        screening.setRoomOfScreening(room);
-        movieList.add(movie);
-        roomList.add(room);
-        screeningList.add(screening);
+        authorizationService = new AuthorizationService(activeUserStore);
+        screeningRepository = Mockito.mock(ScreeningRepository.class);
+        movieRepository = Mockito.mock(MovieRepository.class);
+        roomRepository = Mockito.mock(RoomRepository.class);
+        screeningValidator = Mockito.mock(ScreeningValidator.class);
+        screeningService = new ScreeningService(screeningRepository, movieRepository, roomRepository, screeningValidator, authorizationService);
     }
+
+    @Test
+    public void testCreateScreeningShouldThrowUserNotLoggedInExceptionWhenNoUserIsLoggedIn() {
+        when(activeUserStore.getActiveUser()).thenReturn(null);
+        assertThrows(UserNotLoggedInException.class, () -> screeningService.createScreening("asd", "asd", LocalDateTime.now()));
+    }
+
+    @Test
+    public void testCreateScreeningShouldThrowNotAuthorizedOperationExceptionWhenTheUserDoesNotHaveTheGivenRoles() {
+        when(activeUserStore.getActiveUser()).thenReturn(new User("bela","123", User.Role.USER));
+        assertThrows(NotAuthorizedOperationException.class, () -> screeningService.createScreening("asd", "asd", LocalDateTime.now()));
+    }
+
+    @SneakyThrows
+    @Test
+    public void testCreateScreeningShouldReturnProperActionResultWhenTheGivenMovieIsNotFound() {
+        when(activeUserStore.getActiveUser()).thenReturn(new User("bela","123", User.Role.ADMIN));
+        when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.empty());
+        assertThat(screeningService.createScreening("asd", "asd", LocalDateTime.now()), equalTo(new ActionResult("Movie does not exist", false)));
+    }
+
+    @SneakyThrows
+    @Test
+    public void testCreateScreeningShouldReturnProperActionResultWhenTheGivenRoomIsNotFound() {
+        when(activeUserStore.getActiveUser()).thenReturn(new User("bela","123", User.Role.ADMIN));
+        when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(new Movie("asd", "asdasd", 123, null)));
+        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.empty());
+        assertThat(screeningService.createScreening("asd", "asd", LocalDateTime.now()), equalTo(new ActionResult("Room does not exist", false)));
+    }
+
+    /**
+     *    @SneakyThrows
+     *     @Test
+     *     public void testCreateScreeningShouldReturnProperActionResultWhenTheScreeningsAreOverlapping() {
+     *         when(activeUserStore.getActiveUser()).thenReturn(new User("bela","123", User.Role.ADMIN));
+     *         Movie movie = new Movie("asd", "asdasd", 120, null);
+     *         Room room = new Room("bak", null, 3, 2, null);
+     *         Screening screening1 = new Screening(1, movie, room, LocalDateTime.parse("2021-04-22 11:00",dateTimeFormatter), LocalDateTime.parse("2021-04-22 13:00",dateTimeFormatter));
+     *         Screening screening2 = new Screening(1, movie, room, LocalDateTime.parse("2021-04-22 13:10",dateTimeFormatter), LocalDateTime.parse("2021-04-22 15:10",dateTimeFormatter));
+     *         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
+     *         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
+     *         when(screeningRepository.findAllByRoomOfScreening(Mockito.any(Room.class))).thenReturn(List.of(screening1,screening2));
+     *         assertThat(screeningService.createScreening("asd", "bak", LocalDateTime.parse("2021-04-22 11:33",dateTimeFormatter)), equalTo(new ActionResult("Overlapping", false)));
+     *     }
+     */
+
+
 }

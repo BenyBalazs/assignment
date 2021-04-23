@@ -15,6 +15,16 @@ public class CreateScreeningCommand implements Command {
     String roomName;
     LocalDateTime startOfScreening;
 
+    public CreateScreeningCommand(ScreeningServiceInterface screeningService,
+                                  String movieTitle,
+                                  String roomName,
+                                  LocalDateTime startOfScreening) {
+        this.screeningService = screeningService;
+        this.movieTitle = movieTitle;
+        this.roomName = roomName;
+        this.startOfScreening = startOfScreening;
+    }
+
     @Override
     public String execute() {
         try {
@@ -22,13 +32,12 @@ public class CreateScreeningCommand implements Command {
 
             if (actionResult.getMessage().equals("Overlapping")) {
                 return "There is an overlapping screening";
-            }
-            else if (actionResult.getMessage().equals("BrakePeriod")) {
+            } else if (actionResult.getMessage().equals("BrakePeriod")) {
                 return "This would start in the break period after another screening in this room";
             }
+            return actionResult.getMessage();
         } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
             return e.getMessage();
         }
-        return "";
     }
 }

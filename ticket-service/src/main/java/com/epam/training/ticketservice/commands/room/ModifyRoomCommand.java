@@ -12,7 +12,7 @@ public class ModifyRoomCommand implements Command {
     int cols;
     int rows;
 
-    public ModifyRoomCommand(RoomServiceInterface roomService, String roomName, int cols, int rows) {
+    public ModifyRoomCommand(RoomServiceInterface roomService, String roomName, int rows, int cols) {
         this.roomService = roomService;
         this.roomName = roomName;
         this.cols = cols;

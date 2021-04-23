@@ -22,7 +22,8 @@ public class MovieService implements MovieServiceInterface {
     }
 
     @Override
-    public boolean createMovie(String title, String genre, int length) throws UserNotLoggedInException, NotAuthorizedOperationException {
+    public boolean createMovie(String title, String genre, int length)
+            throws UserNotLoggedInException, NotAuthorizedOperationException {
 
         authorizationService.userHasRoles(User.Role.ADMIN);
 
@@ -41,7 +42,8 @@ public class MovieService implements MovieServiceInterface {
     }
 
     @Override
-    public boolean modifyMovie(String title, String genre, int length) throws UserNotLoggedInException, NotAuthorizedOperationException {
+    public boolean modifyMovie(String title, String genre, int length)
+            throws UserNotLoggedInException, NotAuthorizedOperationException {
 
         authorizationService.userHasRoles(User.Role.ADMIN);
 
@@ -65,7 +67,8 @@ public class MovieService implements MovieServiceInterface {
     }
 
     @Override
-    public boolean deleteMovie(String title) throws UserNotLoggedInException, NotAuthorizedOperationException {
+    public boolean deleteMovie(String title)
+            throws UserNotLoggedInException, NotAuthorizedOperationException {
 
         authorizationService.userHasRoles(User.Role.ADMIN);
 
@@ -81,11 +84,9 @@ public class MovieService implements MovieServiceInterface {
     }
 
     private boolean doesTheEntityExists(String title) {
-
-        Movie movieToCreate = findMovie(title);
-
-        return movieToCreate == null;
+        return findMovie(title) == null;
     }
+
     private Movie findMovie(String title) {
         return movieRepository.findById(title).orElse(null);
     }

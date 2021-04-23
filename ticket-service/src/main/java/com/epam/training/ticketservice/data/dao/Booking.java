@@ -10,29 +10,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 @Entity
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Getter
 @Setter
-public class Seat {
+public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer seatPk;
-    Integer colPosition;
-    Integer rowPosition;
+    long ticketPk;
 
-    @ManyToOne
-    @JoinColumn(name = "roomName")
-    Room room;
+    //@OneToMany(mappedBy = "booking",
+    //        cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    //List<Ticket> tickets;
 
-    @OneToMany(mappedBy = "seat")
-    List<Ticket> tickets;
+    //@ManyToOne
+   // @JoinColumn(name = "users")
+    //User users;
 }

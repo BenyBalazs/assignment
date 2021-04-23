@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @NoArgsConstructor
@@ -39,4 +40,13 @@ public class Screening {
     private LocalDateTime startOfScreening;
     @Column(nullable = false)
     private LocalDateTime endOfScreening;
+
+    @Override
+    public String toString() {
+        return movie.toString()
+                + ", screened in room "
+                + roomOfScreening.getRoomName()
+                + ", at "
+                + startOfScreening.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
 }

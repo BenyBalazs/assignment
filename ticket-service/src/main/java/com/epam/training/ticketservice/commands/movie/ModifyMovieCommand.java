@@ -3,15 +3,15 @@ package com.epam.training.ticketservice.commands.movie;
 import com.epam.training.ticketservice.commands.Command;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
-import com.epam.training.ticketservice.service.MovieService;
+import com.epam.training.ticketservice.service.interfaces.MovieServiceInterface;
 
 public class ModifyMovieCommand implements Command {
-    MovieService movieService;
+    MovieServiceInterface movieService;
     String title;
     String genre;
     int length;
 
-    public ModifyMovieCommand(MovieService movieService, String title, String genre, int length) {
+    public ModifyMovieCommand(MovieServiceInterface movieService, String title, String genre, int length) {
         this.movieService = movieService;
         this.title = title;
         this.genre = genre;

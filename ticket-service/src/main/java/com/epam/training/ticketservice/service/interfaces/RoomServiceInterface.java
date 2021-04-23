@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface RoomServiceInterface {
 
-    boolean createRoom(String name, int columns, int rows) throws UserNotLoggedInException, NotAuthorizedOperationException;
+    boolean createRoom(String name, int columns, int rows)
+            throws UserNotLoggedInException, NotAuthorizedOperationException;
 
-    boolean modifyRoomSeats(String name, int columns, int rows) throws UserNotLoggedInException, NotAuthorizedOperationException;
+    boolean modifyRoomSeats(String name, int columns, int rows)
+            throws UserNotLoggedInException, NotAuthorizedOperationException;
 
     boolean deleteRoom(String name) throws UserNotLoggedInException, NotAuthorizedOperationException;
 

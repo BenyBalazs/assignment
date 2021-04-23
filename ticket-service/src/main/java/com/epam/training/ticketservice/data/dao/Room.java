@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,11 +27,30 @@ public class Room {
     @Column(name = "roomName")
     private String roomName;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room",
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH },
+            orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     List<Seat> seats;
+    int maxRows;
+    int maxCols;
 
     @OneToMany(mappedBy = "roomOfScreening",
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH },
-            orphanRemoval = true)
+            orphanRemoval = false)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Screening> screeningList;
+
+    @Override
+    public String toString() {
+        return "Room "
+                + roomName
+                + " with "
+                + maxRows * maxCols
+                + " seats, "
+                + maxRows
+                + " rows and "
+                + maxCols
+                + " columns";
+    }
 }

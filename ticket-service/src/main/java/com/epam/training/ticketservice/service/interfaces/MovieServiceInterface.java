@@ -10,9 +10,11 @@ import java.util.List;
 @Service
 public interface MovieServiceInterface {
 
-    boolean createMovie(String title, String genre, int length) throws UserNotLoggedInException, NotAuthorizedOperationException;
+    boolean createMovie(String title, String genre, int length)
+            throws UserNotLoggedInException, NotAuthorizedOperationException;
 
-    boolean modifyMovie(String title, String genre, int length) throws UserNotLoggedInException, NotAuthorizedOperationException;
+    boolean modifyMovie(String title, String genre, int length)
+            throws UserNotLoggedInException, NotAuthorizedOperationException;
 
     List<Movie> getAllMoviesAsList();
 

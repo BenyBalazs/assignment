@@ -25,10 +25,8 @@ public class PrivilegedLogInCommand implements Command {
                 return "";
             }
             return "Login failed due to incorrect credentials.";
-        } catch (UserAlreadyLoggedInException e) {
-            return "Already Logged in.";
-        } catch (NotAuthorizedOperationException e) {
-            return "You can not log in privileged with non administrator account.";
+        } catch (UserAlreadyLoggedInException | NotAuthorizedOperationException e) {
+            return e.getMessage();
         }
     }
 }

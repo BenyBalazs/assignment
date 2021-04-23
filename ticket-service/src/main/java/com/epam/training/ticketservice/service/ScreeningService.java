@@ -12,6 +12,8 @@ import com.epam.training.ticketservice.exception.NotAuthorizedOperationException
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.ScreeningHelperUtilityInterface;
 import com.epam.training.ticketservice.service.interfaces.ScreeningServiceInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +22,8 @@ import java.util.Optional;
 
 @Service
 public class ScreeningService implements ScreeningServiceInterface {
+
+    private static final Logger logger = LoggerFactory.getLogger("ScreeningService.class");
 
     ScreeningRepository screeningRepository;
     MovieRepository movieRepository;
@@ -48,13 +52,13 @@ public class ScreeningService implements ScreeningServiceInterface {
         Movie movieToScreen = movieRepository.findById(movieTitle).orElse(null);
 
         if (movieToScreen == null) {
-            return new ActionResult("Movie does not exists", false);
+            return new ActionResult("Movie does not exist", false);
         }
 
         Room roomOfScreening = roomRepository.findById(roomName).orElse(null);
 
         if (roomOfScreening == null) {
-            return new ActionResult("Room does not exists", false);
+            return new ActionResult("Room does not exist", false);
         }
 
         List<Screening> screeningsInTheSameRoom = screeningRepository.findAllByRoomOfScreening(roomOfScreening);
@@ -67,9 +71,10 @@ public class ScreeningService implements ScreeningServiceInterface {
             return new ActionResult("BrakePeriod", false);
         }
 
+        logger.trace("Inserting new screening with values {} {} {}", movieToScreen, roomOfScreening, startOfScreening);
         screeningRepository.save(createScreeningInstance(movieToScreen, roomOfScreening, startOfScreening));
 
-        return new ActionResult("Screening created", false);
+        return new ActionResult("Screening created", true);
     }
 
     @Override
@@ -88,6 +93,7 @@ public class ScreeningService implements ScreeningServiceInterface {
         Screening screeningToDelete = screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(movie.get(), room.get(), startOfScreening);
 
+        logger.trace(screeningToDelete.toString());
         screeningRepository.delete(screeningToDelete);
 
         return false;

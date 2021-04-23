@@ -25,10 +25,8 @@ public class LogInCommand implements Command {
                 return "";
             }
             return "Login failed due to incorrect credentials.";
-        } catch (UserAlreadyLoggedInException e) {
-            return "Already Logged in.";
-        } catch (NotAuthorizedOperationException e) {
-            return "";
+        } catch (UserAlreadyLoggedInException | NotAuthorizedOperationException e) {
+            return e.getMessage();
         }
     }
 

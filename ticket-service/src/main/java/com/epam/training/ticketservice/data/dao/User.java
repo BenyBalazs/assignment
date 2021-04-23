@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -22,11 +24,19 @@ public class User {
         USER,
     }
 
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     @Id
     private String username;
     private String password;
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    List<Ticket> tickets;
 
 
 }

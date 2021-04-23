@@ -8,7 +8,6 @@ import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.RoomServiceInterface;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,7 +26,7 @@ public class RoomService implements RoomServiceInterface {
     }
 
     @Override
-    public boolean createRoom(String name, int columns, int rows) throws UserNotLoggedInException,
+    public boolean createRoom(String name, int rows, int columns) throws UserNotLoggedInException,
             NotAuthorizedOperationException {
 
         authorizationService.userHasRoles(User.Role.ADMIN);
@@ -38,6 +37,8 @@ public class RoomService implements RoomServiceInterface {
 
         Room roomToCreate = new Room();
         roomToCreate.setRoomName(name);
+        roomToCreate.setMaxRows(rows);
+        roomToCreate.setMaxCols(columns);
         roomRepository.save(roomToCreate);
         roomToCreate.setSeats(seatService.createSeats(columns,rows));
         roomRepository.save(roomToCreate);
@@ -46,7 +47,7 @@ public class RoomService implements RoomServiceInterface {
     }
 
     @Override
-    public boolean modifyRoomSeats(String name, int columns, int rows) throws UserNotLoggedInException,
+    public boolean modifyRoomSeats(String name, int rows, int columns) throws UserNotLoggedInException,
             NotAuthorizedOperationException {
 
         authorizationService.userHasRoles(User.Role.ADMIN);
@@ -56,6 +57,8 @@ public class RoomService implements RoomServiceInterface {
         if (roomToModify == null) {
             return false;
         }
+        roomToModify.setMaxRows(rows);
+        roomToModify.setMaxCols(columns);
 
         roomToModify.setSeats(seatService.createSeats(columns, rows));
         roomRepository.save(roomToModify);
@@ -82,9 +85,5 @@ public class RoomService implements RoomServiceInterface {
     @Override
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
-    }
-
-    private List<User.Role> acceptedRoles(User.Role... roles) {
-        return Arrays.asList(roles.clone());
     }
 }
