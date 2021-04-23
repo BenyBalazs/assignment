@@ -76,7 +76,7 @@ public class RoomService implements RoomServiceInterface {
         if (roomToDelete == null) {
             return false;
         }
-
+        seatService.deleteSeats(roomToDelete.getSeats());
         roomRepository.delete(roomToDelete);
 
         return true;
