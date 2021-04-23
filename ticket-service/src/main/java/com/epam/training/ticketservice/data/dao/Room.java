@@ -28,16 +28,14 @@ public class Room {
     private String roomName;
 
     @OneToMany(mappedBy = "room",
-            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH },
-            orphanRemoval = true)
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @LazyCollection(LazyCollectionOption.FALSE)
     List<Seat> seats;
     int maxRows;
     int maxCols;
 
     @OneToMany(mappedBy = "roomOfScreening",
-            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH },
-            orphanRemoval = true)
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Screening> screeningList;
 

@@ -59,7 +59,7 @@ public class RoomService implements RoomServiceInterface {
         }
         roomToModify.setMaxRows(rows);
         roomToModify.setMaxCols(columns);
-
+        seatService.deleteSeats(roomToModify.getSeats());
         roomToModify.setSeats(seatService.createSeats(columns, rows));
         roomRepository.save(roomToModify);
 

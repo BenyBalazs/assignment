@@ -15,7 +15,7 @@ public class Lister<T> {
 
     public String list() {
         if (data.isEmpty()) {
-            return "There are no movies at the moment";
+            return whenEmpty;
         }
         return data.stream().map(T::toString).collect(Collectors.joining("\n"));
     }

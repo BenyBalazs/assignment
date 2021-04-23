@@ -34,4 +34,12 @@ public class SeatService implements SeatServiceInterface {
         return seats;
 
     }
+
+    public void deleteSeats(List<Seat> seats) {
+        for (var seat: seats) {
+            seat.setRoom(null);
+            seatRepository.save(seat);
+            seatRepository.delete(seat);
+        }
+    }
 }

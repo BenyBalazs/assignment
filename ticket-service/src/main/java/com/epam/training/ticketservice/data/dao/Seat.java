@@ -23,7 +23,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Getter
 @Setter
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"room","rowPosition","colPosition"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"roomName","rowPosition","colPosition"}))
 public class Seat {
 
     @Id
@@ -40,4 +40,9 @@ public class Seat {
     @OneToMany(mappedBy = "seat")
     @EqualsAndHashCode.Exclude
     List<Ticket> tickets;
+
+    @Override
+    public String toString() {
+        return "(" + rowPosition + "," + colPosition + ")";
+    }
 }

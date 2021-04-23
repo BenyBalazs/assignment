@@ -5,18 +5,24 @@ import com.epam.training.ticketservice.service.interfaces.AccountDescribeInterfa
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.time.format.DateTimeFormatter;
+
 @ShellComponent
 public class DescribeCommandHandler {
 
     private AccountDescribeInterface accountDescribeService;
+    private DateTimeFormatter dateTimeFormatter;
 
-    public DescribeCommandHandler(AccountDescribeInterface accountDescribeService) {
+    public DescribeCommandHandler(AccountDescribeInterface accountDescribeService,
+                                  DateTimeFormatter dateTimeFormatter) {
         this.accountDescribeService = accountDescribeService;
+        this.dateTimeFormatter = dateTimeFormatter;
     }
 
     @ShellMethod(value = "Describes the currently logged in account.", key = "describe account")
     public String describeAccount() {
-        AccountDescribeCommand accountDescribeCommand = new AccountDescribeCommand(accountDescribeService);
+        AccountDescribeCommand accountDescribeCommand =
+                new AccountDescribeCommand(accountDescribeService, dateTimeFormatter);
 
         return accountDescribeCommand.execute();
     }

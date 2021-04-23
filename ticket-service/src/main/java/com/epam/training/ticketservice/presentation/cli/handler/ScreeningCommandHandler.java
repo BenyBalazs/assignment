@@ -19,9 +19,10 @@ public class ScreeningCommandHandler {
     private final ScreeningServiceInterface screeningService;
     private final DateTimeFormatter dateTimeFormatter;
 
-    public ScreeningCommandHandler(ScreeningServiceInterface screeningService) {
+    public ScreeningCommandHandler(ScreeningServiceInterface screeningService,
+                                   DateTimeFormatter dateTimeFormatter) {
         this.screeningService = screeningService;
-        this.dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.dateTimeFormatter = dateTimeFormatter;
     }
 
     @ShellMethod(value = "This method is used to create Screenings", key = "create screening")
