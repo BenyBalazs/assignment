@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
-import com.epam.training.ticketservice.SeatIntPair;
+import com.epam.training.ticketservice.utils.SeatIntPair;
 import com.epam.training.ticketservice.commands.booking.BookASeatCommand;
 import com.epam.training.ticketservice.service.interfaces.BookingServiceInterface;
 import org.springframework.shell.standard.ShellComponent;

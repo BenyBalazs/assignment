@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.ActionResult;
-import com.epam.training.ticketservice.ActiveUserStore;
+import com.epam.training.ticketservice.utils.ActionResult;
+import com.epam.training.ticketservice.utils.ActiveUserStore;
 import com.epam.training.ticketservice.data.dao.Movie;
 import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.data.dao.Screening;

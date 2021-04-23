@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice;
+package com.epam.training.ticketservice.utils;
 
 import com.epam.training.ticketservice.data.dao.User;
 import lombok.Getter;

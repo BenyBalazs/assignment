@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.ActiveUserStore;
+import com.epam.training.ticketservice.utils.ActiveUserStore;
 import com.epam.training.ticketservice.data.dao.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

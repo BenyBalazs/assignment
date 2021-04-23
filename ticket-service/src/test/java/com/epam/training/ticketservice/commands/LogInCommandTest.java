@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.commands;
 
-import com.epam.training.ticketservice.ActiveUserStore;
+import com.epam.training.ticketservice.utils.ActiveUserStore;
 import com.epam.training.ticketservice.commands.account.LogInCommand;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;

@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.service.interfaces;
 
-import com.epam.training.ticketservice.BookingActionResult;
-import com.epam.training.ticketservice.SeatIntPair;
+import com.epam.training.ticketservice.utils.BookingActionResult;
+import com.epam.training.ticketservice.utils.SeatIntPair;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 
 import java.time.LocalDateTime;

@@ -1,8 +1,8 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.ActiveUserStore;
-import com.epam.training.ticketservice.BookingActionResult;
-import com.epam.training.ticketservice.SeatIntPair;
+import com.epam.training.ticketservice.utils.ActiveUserStore;
+import com.epam.training.ticketservice.utils.BookingActionResult;
+import com.epam.training.ticketservice.utils.SeatIntPair;
 import com.epam.training.ticketservice.data.dao.Movie;
 import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.data.dao.Screening;

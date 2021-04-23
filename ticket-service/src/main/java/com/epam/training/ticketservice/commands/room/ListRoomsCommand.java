@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.commands.room;
 
 import com.epam.training.ticketservice.commands.Command;
-import com.epam.training.ticketservice.Lister;
+import com.epam.training.ticketservice.utils.Lister;
 import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.service.interfaces.RoomServiceInterface;
 

@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.commands.screening;
 
-import com.epam.training.ticketservice.ActionResult;
+import com.epam.training.ticketservice.utils.ActionResult;
 import com.epam.training.ticketservice.commands.Command;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;

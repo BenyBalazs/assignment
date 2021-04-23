@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.ActiveUserStore;
+import com.epam.training.ticketservice.utils.ActiveUserStore;
 import com.epam.training.ticketservice.service.interfaces.SignOutInterface;
 import org.springframework.stereotype.Component;
 
