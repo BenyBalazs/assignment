@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-@ToString
+@ToString(callSuper = true)
 public class BookingActionResult extends ActionResult {
 
     private SeatIntPair seatIntPair;
