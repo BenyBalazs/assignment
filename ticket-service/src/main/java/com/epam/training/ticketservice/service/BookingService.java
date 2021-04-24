@@ -15,6 +15,8 @@ import com.epam.training.ticketservice.data.repository.SeatRepository;
 import com.epam.training.ticketservice.data.repository.TicketRepository;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.BookingServiceInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.rmi.AlreadyBoundException;
@@ -26,15 +28,15 @@ import java.util.List;
 public class BookingService implements BookingServiceInterface {
 
     private static final int DEFAULT_PRICE = 1500;
+    private static final Logger logger = LoggerFactory.getLogger("ScreeningService.class");
 
-
-    SeatRepository seatRepository;
-    ActiveUserStore activeUserStore;
-    AuthorizationService authorizationService;
-    ScreeningRepository screeningRepository;
-    TicketRepository ticketRepository;
-    RoomRepository roomRepository;
-    MovieRepository movieRepository;
+    private final SeatRepository seatRepository;
+    private final ActiveUserStore activeUserStore;
+    private final AuthorizationService authorizationService;
+    private final ScreeningRepository screeningRepository;
+    private final TicketRepository ticketRepository;
+    private final RoomRepository roomRepository;
+    private final MovieRepository movieRepository;
 
     public BookingService(SeatRepository seatRepository,
                           ActiveUserStore activeUserStore,
@@ -60,39 +62,26 @@ public class BookingService implements BookingServiceInterface {
 
         authorizationService.userIsLoggedIn();
 
-        Movie movie = movieRepository.findById(movieTitle).orElse(null);
-
-        if (movie == null) {
-            return new BookingActionResult("NoMovie", false);
-        }
-
-        Room room = roomRepository.findById(roomName).orElse(null);
-
-        if (room == null) {
-            return new BookingActionResult("NoRoom", false);
-        }
-
+        Movie screenedMovie = movieRepository.findById(movieTitle).orElse(null);
+        Room roomOfScreening = roomRepository.findById(roomName).orElse(null);
         Screening screening = screeningRepository
-                .findByMovieAndRoomOfScreeningAndStartOfScreening(movie, room, startOfScreening);
+                .findByMovieAndRoomOfScreeningAndStartOfScreening(screenedMovie, roomOfScreening, startOfScreening);
 
-        if (screening == null) {
-            return new BookingActionResult("NoScreening", false);
+        //System.out.println(screenedMovie);
+        //System.out.println(roomOfScreening);
+        //System.out.println(screening);
+        BookingActionResult nullCheckResult = nullChecker(screenedMovie, roomOfScreening, screening);
+
+        if (!nullCheckResult.isSuccess()) {
+            return nullCheckResult;
         }
 
         List<Ticket> ticketsToSave = new ArrayList<>();
-        Ticket ticket;
-        SeatIntPair seatIntPair = null;
-        try {
-            for (var seat: seatsToBook) {
-                ticket = crateTicketIfPossible(screening, room, seat.getRow(), seat.getColumn());
-                seatIntPair = seat;
-                if (ticket == null) {
-                    return new BookingActionResult("NoSeat", false, seat);
-                }
-                ticketsToSave.add(ticket);
-            }
-        } catch (AlreadyBoundException e) {
-            return new BookingActionResult("Taken", false, seatIntPair);
+        BookingActionResult ticketActionResult
+                = setTicketsToSave(ticketsToSave, seatsToBook, screening, roomOfScreening);
+
+        if (!ticketActionResult.isSuccess()) {
+            return ticketActionResult;
         }
 
         for (var tickets: ticketsToSave) {
@@ -102,20 +91,36 @@ public class BookingService implements BookingServiceInterface {
         return new BookingActionResult("SeatsBooked", true, calculateTicketPrice(ticketsToSave));
     }
 
-    private List<Ticket> createTicketListToSave(Screening screening, Room room, List<SeatIntPair> seatsToBook)
-            throws AlreadyBoundException {
-        List<Ticket> ticketsToReturn = new ArrayList<>();
+    private BookingActionResult nullChecker(Movie movieToCheck, Room roomToCheck, Screening screeningToCheck) {
 
-        for (var seat: seatsToBook) {
-            Ticket ticketToAdd = crateTicketIfPossible(screening, room, seat.getRow(), seat.getColumn());
-            if (ticketToAdd == null) {
-                return null;
+        if (movieToCheck == null) {
+            return new BookingActionResult("NoMovie", false);
+        } else if (roomToCheck == null) {
+            return new BookingActionResult("NoRoom", false);
+        } else if (screeningToCheck == null) {
+            return new BookingActionResult("NoScreening", false);
+        }
+        return new BookingActionResult("NoNullValue", true);
+    }
+
+    private BookingActionResult setTicketsToSave(List<Ticket> ticketsToSave, List<SeatIntPair> seatsToBook,
+                                                 Screening screening, Room roomOfScreening) {
+        Ticket ticketToVerify;
+        SeatIntPair seatIntPair = null;
+        try {
+            for (var seat: seatsToBook) {
+                seatIntPair = seat;
+                ticketToVerify = crateTicketIfPossible(screening, roomOfScreening, seat.getRow(), seat.getColumn());
+                if (ticketToVerify == null) {
+                    return new BookingActionResult("NoSeat", false, seatIntPair);
+                }
+                ticketsToSave.add(ticketToVerify);
             }
-            ticketsToReturn.add(ticketToAdd);
+        } catch (AlreadyBoundException e) {
+            return new BookingActionResult("Taken", false, seatIntPair);
         }
 
-        return ticketsToReturn;
-
+        return new BookingActionResult("ticketToSaveListIsSet", true);
     }
 
     private Ticket crateTicketIfPossible(Screening screening, Room room, int row, int col)
@@ -123,7 +128,7 @@ public class BookingService implements BookingServiceInterface {
 
         Seat seat = seatRepository.findByRoomAndRowPositionAndColPosition(room, row, col);
 
-        if (seat == null ) {
+        if (seat == null) {
             return null;
         }
 
@@ -132,7 +137,6 @@ public class BookingService implements BookingServiceInterface {
         }
 
         return createTicketInstance(screening, seat);
-
     }
 
     private Ticket createTicketInstance(Screening screening, Seat seat) {
@@ -142,11 +146,10 @@ public class BookingService implements BookingServiceInterface {
         ticket.setUser(activeUserStore.getActiveUser());
         ticket.setScreening(screening);
         return ticket;
-
     }
 
     private int calculateTicketPrice(List<Ticket> tickets) {
-        return tickets.stream().map(Ticket::getTicketPrice).reduce(Integer::sum).orElse(null);
+        return tickets.stream().map(Ticket::getTicketPrice).reduce(Integer::sum).orElse(0);
     }
 
 }

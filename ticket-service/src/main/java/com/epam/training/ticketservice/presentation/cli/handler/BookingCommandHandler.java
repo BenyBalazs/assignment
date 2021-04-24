@@ -35,19 +35,3 @@ public class BookingCommandHandler {
     }
 }
 
-class SeatIntPairBuilder {
-
-    public List<SeatIntPair> buildList(String seats) {
-
-        return Arrays.stream(seats.split(" "))
-                .map((x) -> {var arr =x.split(",");
-                return createSeatIntPairFromString(arr[0], arr[1]); })
-                .collect(Collectors.toList());
-
-    }
-
-    private SeatIntPair createSeatIntPairFromString(String row, String col) {
-
-        return new SeatIntPair(Integer.parseInt(row), Integer.parseInt(col));
-    }
-}

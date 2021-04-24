@@ -1,9 +1,13 @@
 package com.epam.training.ticketservice.utils;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
-public class BookingActionResult extends ActionResult{
+@EqualsAndHashCode(callSuper = true)
+@ToString
+public class BookingActionResult extends ActionResult {
 
     private SeatIntPair seatIntPair;
     private int price;
@@ -21,4 +25,5 @@ public class BookingActionResult extends ActionResult{
         super(message, success);
         this.price = price;
     }
+
 }

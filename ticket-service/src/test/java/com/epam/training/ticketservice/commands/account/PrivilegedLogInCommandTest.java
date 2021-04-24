@@ -1,6 +1,5 @@
-package com.epam.training.ticketservice.commands;
+package com.epam.training.ticketservice.commands.account;
 
-import com.epam.training.ticketservice.commands.account.PrivilegedLogInCommand;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserAlreadyLoggedInException;
 import com.epam.training.ticketservice.service.PrivilegedLogInService;

@@ -1,10 +1,9 @@
-package com.epam.training.ticketservice.commands;
+package com.epam.training.ticketservice.commands.account;
 
-import com.epam.training.ticketservice.utils.ActiveUserStore;
-import com.epam.training.ticketservice.commands.account.LogInCommand;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
 import com.epam.training.ticketservice.service.LogInService;
+import com.epam.training.ticketservice.utils.ActiveUserStore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -61,6 +60,6 @@ public class LogInCommandTest {
         logInCommand = new LogInCommand(logInService, "admin", "admin");
         logInCommand.execute();
 
-        assertThat(logInCommand.execute(), equalTo("Already Logged in."));
+        assertThat(logInCommand.execute(), equalTo("You are already logged in."));
     }
 }
