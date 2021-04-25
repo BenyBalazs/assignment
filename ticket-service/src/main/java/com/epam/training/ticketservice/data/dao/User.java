@@ -37,6 +37,7 @@ public class User {
     private String password;
     private Role role;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user",
             fetch = FetchType.EAGER,
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

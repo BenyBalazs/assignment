@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import com.epam.training.ticketservice.utils.ActionResult;
 import com.epam.training.ticketservice.data.dao.Movie;
 import com.epam.training.ticketservice.data.dao.Room;
@@ -93,10 +94,12 @@ public class ScreeningService implements ScreeningServiceInterface {
         Screening screeningToDelete = screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(movie.get(), room.get(), startOfScreening);
 
+        System.out.println(screeningToDelete);
+
         logger.trace(screeningToDelete.toString());
         screeningRepository.delete(screeningToDelete);
 
-        return false;
+        return true;
     }
 
     @Override

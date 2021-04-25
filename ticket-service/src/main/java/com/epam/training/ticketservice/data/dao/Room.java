@@ -34,8 +34,7 @@ public class Room {
     int maxRows;
     int maxCols;
 
-    @OneToMany(mappedBy = "roomOfScreening",
-            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @OneToMany(mappedBy = "roomOfScreening")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Screening> screeningList;
 

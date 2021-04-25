@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.data.repository.SeatRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,6 @@ public class SeatServiceTest {
 
     @Test
     public void testShouldReturnTheGivenSizeListWithTheSeatsInIt() {
-        assertThat(seatService.createSeats(10,10).size(), equalTo(100));
+        assertThat(seatService.createSeats(new Room(),10,10).size(), equalTo(100));
     }
 }

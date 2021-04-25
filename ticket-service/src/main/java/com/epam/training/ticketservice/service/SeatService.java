@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.data.dao.Seat;
 import com.epam.training.ticketservice.data.repository.SeatRepository;
 import com.epam.training.ticketservice.service.interfaces.SeatServiceInterface;
@@ -17,16 +18,17 @@ public class SeatService implements SeatServiceInterface {
         this.seatRepository = seatRepository;
     }
 
-    public List<Seat> createSeats(int rows, int cols) {
+    public List<Seat> createSeats(Room room , int rows, int cols) {
 
         List<Seat> seats = new LinkedList<>();
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 1; i < rows+1; i++) {
+            for (int j = 1; j < cols+1; j++) {
                 Seat seatToAdd = new Seat();
                 seatToAdd.setColPosition(i);
                 seatToAdd.setRowPosition(j);
                 //seatRepository.save(seatToAdd);
+                seatToAdd.setRoom(room);
                 seats.add(seatToAdd);
             }
         }

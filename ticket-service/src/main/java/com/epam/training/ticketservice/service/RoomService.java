@@ -6,6 +6,7 @@ import com.epam.training.ticketservice.data.repository.RoomRepository;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.RoomServiceInterface;
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +41,8 @@ public class RoomService implements RoomServiceInterface {
         roomToCreate.setMaxRows(rows);
         roomToCreate.setMaxCols(columns);
         roomRepository.save(roomToCreate);
-        roomToCreate.setSeats(seatService.createSeats(columns,rows));
+        roomToCreate = roomRepository.findById(name).orElse(null);
+        roomToCreate.setSeats(seatService.createSeats(roomToCreate, columns, rows));
         roomRepository.save(roomToCreate);
 
         return true;
@@ -60,7 +62,7 @@ public class RoomService implements RoomServiceInterface {
         roomToModify.setMaxRows(rows);
         roomToModify.setMaxCols(columns);
         seatService.deleteSeats(roomToModify.getSeats());
-        roomToModify.setSeats(seatService.createSeats(columns, rows));
+        roomToModify.setSeats(seatService.createSeats(roomToModify, columns, rows));
         roomRepository.save(roomToModify);
 
         return true;
