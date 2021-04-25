@@ -26,7 +26,9 @@ public class BookingServiceHelper {
 
     private List<Ticket> ticketsToSave;
 
-    public BookingServiceHelper(ActiveUserStore activeUserStore, SeatRepository seatRepository, TicketRepository ticketRepository) {
+    public BookingServiceHelper(ActiveUserStore activeUserStore,
+                                SeatRepository seatRepository,
+                                TicketRepository ticketRepository) {
         this.activeUserStore = activeUserStore;
         this.seatRepository = seatRepository;
         this.ticketRepository = ticketRepository;
