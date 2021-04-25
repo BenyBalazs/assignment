@@ -88,21 +88,4 @@ public class ScreeningServiceTest {
         assertThat(screeningService.createScreening("asd", "asd", LocalDateTime.now()), equalTo(new ActionResult("Room does not exist", false)));
     }
 
-    /**
-     *    @SneakyThrows
-     *     @Test
-     *     public void testCreateScreeningShouldReturnProperActionResultWhenTheScreeningsAreOverlapping() {
-     *         when(activeUserStore.getActiveUser()).thenReturn(new User("bela","123", User.Role.ADMIN));
-     *         Movie movie = new Movie("asd", "asdasd", 120, null);
-     *         Room room = new Room("bak", null, 3, 2, null);
-     *         Screening screening1 = new Screening(1, movie, room, LocalDateTime.parse("2021-04-22 11:00",dateTimeFormatter), LocalDateTime.parse("2021-04-22 13:00",dateTimeFormatter));
-     *         Screening screening2 = new Screening(1, movie, room, LocalDateTime.parse("2021-04-22 13:10",dateTimeFormatter), LocalDateTime.parse("2021-04-22 15:10",dateTimeFormatter));
-     *         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
-     *         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
-     *         when(screeningRepository.findAllByRoomOfScreening(Mockito.any(Room.class))).thenReturn(List.of(screening1,screening2));
-     *         assertThat(screeningService.createScreening("asd", "bak", LocalDateTime.parse("2021-04-22 11:33",dateTimeFormatter)), equalTo(new ActionResult("Overlapping", false)));
-     *     }
-     */
-
-
 }

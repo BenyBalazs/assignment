@@ -49,7 +49,7 @@ public class BookingStringBuilderTest {
     }
 
     @Test
-    public void asd() {
+    public void testBuildBookingStringShouldReturnOneLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsOnlyInOneScreening() {
         Room room = new Room("Pedersoli", new ArrayList<>(), 1, 1, new ArrayList<>());
         Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
         Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter).plusMinutes(88));
@@ -62,7 +62,7 @@ public class BookingStringBuilderTest {
     }
 
     @Test
-    public void asd2() {
+    public void testBuildBookingStringShouldReturnTwoLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsInMultipleScreening() {
         Room room = new Room("Pedersoli", new ArrayList<>(), 1, 1, new ArrayList<>());
         Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
         Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter).plusMinutes(88));
