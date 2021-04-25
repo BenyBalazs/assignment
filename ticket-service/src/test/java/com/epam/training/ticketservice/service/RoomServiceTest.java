@@ -3,6 +3,7 @@ package com.epam.training.ticketservice.service;
 import com.epam.training.ticketservice.data.dao.Room;
 import com.epam.training.ticketservice.data.repository.RoomRepository;
 import com.epam.training.ticketservice.data.repository.SeatRepository;
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

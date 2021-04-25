@@ -6,6 +6,7 @@ import com.epam.training.ticketservice.data.repository.MovieRepository;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.MovieServiceInterface;
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

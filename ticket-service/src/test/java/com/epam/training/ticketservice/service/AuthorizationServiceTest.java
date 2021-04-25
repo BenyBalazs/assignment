@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import com.epam.training.ticketservice.utils.ActiveUserStore;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;

@@ -13,6 +13,7 @@ import com.epam.training.ticketservice.data.repository.SeatRepository;
 import com.epam.training.ticketservice.data.repository.TicketRepository;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.presentation.cli.configuration.CliConfiguration;
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import com.epam.training.ticketservice.utils.ActiveUserStore;
 import com.epam.training.ticketservice.utils.BookingActionResult;
 import com.epam.training.ticketservice.utils.SeatIntPair;
@@ -35,10 +36,11 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {BookingService.class,AuthorizationService.class, ActiveUserStore.class, CliConfiguration.class})
+@SpringBootTest(classes = {BookingService.class, AuthorizationService.class, ActiveUserStore.class, CliConfiguration.class, BookingServiceHelper.class})
 public class BookingServiceTest {
 
     BookingService underTest;
+    BookingServiceHelper bookingServiceHelper;
     @MockBean
     SeatRepository seatRepository;
     @Autowired
@@ -63,7 +65,8 @@ public class BookingServiceTest {
         ticketRepository = Mockito.mock(TicketRepository.class);
         roomRepository = Mockito.mock(RoomRepository.class);
         movieRepository = Mockito.mock(MovieRepository.class);
-        underTest = new BookingService(seatRepository,activeUserStore,authorizationService,screeningRepository,ticketRepository,roomRepository,movieRepository);
+        bookingServiceHelper = new BookingServiceHelper(activeUserStore, seatRepository, ticketRepository);
+        underTest = new BookingService(authorizationService,screeningRepository, ticketRepository, roomRepository, movieRepository ,bookingServiceHelper);
     }
 
     @Test

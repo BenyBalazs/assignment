@@ -8,7 +8,7 @@ import com.epam.training.ticketservice.data.dao.Ticket;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.presentation.cli.configuration.CliConfiguration;
-import com.epam.training.ticketservice.service.AccountDescribeService;
+import com.epam.training.ticketservice.service.user.AccountDescribeService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

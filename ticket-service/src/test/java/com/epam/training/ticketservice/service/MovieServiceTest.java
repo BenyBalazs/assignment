@@ -2,6 +2,7 @@ package com.epam.training.ticketservice.service;
 
 import com.epam.training.ticketservice.data.dao.Movie;
 import com.epam.training.ticketservice.data.repository.MovieRepository;
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

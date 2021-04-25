@@ -3,7 +3,7 @@ package com.epam.training.ticketservice.presentation.cli.handler;
 import com.epam.training.ticketservice.commands.account.LogInCommand;
 import com.epam.training.ticketservice.commands.account.PrivilegedLogInCommand;
 import com.epam.training.ticketservice.commands.account.SignOutCommand;
-import com.epam.training.ticketservice.service.LogInService;
+import com.epam.training.ticketservice.service.user.LogInService;
 import com.epam.training.ticketservice.service.PrivilegedLogInService;
 import com.epam.training.ticketservice.service.interfaces.SignOutInterface;
 import org.springframework.shell.standard.ShellComponent;

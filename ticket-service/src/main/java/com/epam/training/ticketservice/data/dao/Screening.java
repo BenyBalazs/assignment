@@ -21,7 +21,7 @@ public class Screening {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    long id;
     @JoinColumn(name = "movie")
     @ManyToOne
     private Movie movie;
