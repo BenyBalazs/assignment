@@ -41,7 +41,7 @@ public class RoomService implements RoomServiceInterface {
         roomToCreate.setMaxRows(rows);
         roomToCreate.setMaxCols(columns);
         roomRepository.save(roomToCreate);
-        roomToCreate = roomRepository.findById(name).orElse(null);
+        //roomToCreate = roomRepository.findById(name).orElse(null);
         roomToCreate.setSeats(seatService.createSeats(roomToCreate, columns, rows));
         roomRepository.save(roomToCreate);
 
