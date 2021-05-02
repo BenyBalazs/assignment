@@ -38,8 +38,6 @@ public class RoomService implements RoomServiceInterface {
 
         Room roomToCreate = new Room();
         roomToCreate.setRoomName(name);
-        roomToCreate.setMaxRows(rows);
-        roomToCreate.setMaxCols(columns);
         roomRepository.save(roomToCreate);
         roomToCreate.setSeats(seatService.createSeats(roomToCreate, columns, rows));
         roomRepository.save(roomToCreate);
@@ -58,8 +56,6 @@ public class RoomService implements RoomServiceInterface {
         if (roomToModify == null) {
             return false;
         }
-        roomToModify.setMaxRows(rows);
-        roomToModify.setMaxCols(columns);
         seatService.deleteSeats(roomToModify.getSeats());
         roomToModify.setSeats(seatService.createSeats(roomToModify, columns, rows));
         roomRepository.save(roomToModify);

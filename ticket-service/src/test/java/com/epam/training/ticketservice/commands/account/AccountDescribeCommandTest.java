@@ -60,7 +60,7 @@ public class AccountDescribeCommandTest {
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnAdminSignedInMassageAndProperlyFormattedBookingMassageWhenTheUserIsLoggedInAndHasBookingsAndHasAdminAccess() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), 1, 1, new ArrayList<>());
+        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
         Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
         Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter).plusMinutes(88));
         Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
@@ -77,7 +77,7 @@ public class AccountDescribeCommandTest {
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnUserSignedInMassageAndProperlyFormattedBookingMassageWhenTheUserIsLoggedInAndHasBookingsAndDoesNotHaveAdminAccess() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), 1, 1, new ArrayList<>());
+        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
         Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
         Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter).plusMinutes(88));
         Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());

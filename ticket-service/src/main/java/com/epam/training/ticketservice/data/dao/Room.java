@@ -31,15 +31,23 @@ public class Room {
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @LazyCollection(LazyCollectionOption.FALSE)
     List<Seat> seats;
-    int maxRows;
-    int maxCols;
 
     @OneToMany(mappedBy = "roomOfScreening")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Screening> screeningList;
 
+    public int getMaxRows() {
+        return seats.stream().mapToInt(Seat::getRowPosition).max().orElse(0);
+    }
+
+    public int getMaxCols() {
+        return seats.stream().mapToInt(Seat::getColPosition).max().orElse(0);
+    }
+
     @Override
     public String toString() {
+        int maxRows = getMaxRows();
+        int maxCols = getMaxCols();
         return "Room "
                 + roomName
                 + " with "

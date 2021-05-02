@@ -39,7 +39,7 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnFormattedTickets() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), 1, 1, new ArrayList<>());
+        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
         Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
         Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter).plusMinutes(88));
         Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
@@ -50,7 +50,7 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnOneLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsOnlyInOneScreening() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), 1, 1, new ArrayList<>());
+        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
         Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
         Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter).plusMinutes(88));
         Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
@@ -63,7 +63,7 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnTwoLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsInMultipleScreening() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), 1, 1, new ArrayList<>());
+        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
         Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
         Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter).plusMinutes(88));
         Screening screening1 = new Screening(2, movie, room, LocalDateTime.parse("2021-04-23 00:44", dateTimeFormatter), LocalDateTime.parse("2021-04-23 00:44", dateTimeFormatter).plusMinutes(88));

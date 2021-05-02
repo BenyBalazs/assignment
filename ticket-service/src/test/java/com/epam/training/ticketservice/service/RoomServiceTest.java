@@ -57,28 +57,28 @@ public class RoomServiceTest {
     @SneakyThrows
     @Test
     public void testCreateRoomShouldReturnFalseWhenTheRoomWithTheSameNameAlreadyExists() {
-        roomList.add(new Room("ballada", new ArrayList<>(), 0, 0, null));
+        roomList.add(new Room("ballada", new ArrayList<>(), null));
         assertThat(roomService.createRoom("ballada", 10,10), equalTo(false));
 
     }
     @SneakyThrows
     @Test
     public void testModifyRoomsShouldReturnTrueWhenTheModificationWasSuccessful() {
-        roomList.add(new Room("ballada", new ArrayList<>(), 0, 0, new ArrayList<>()));
+        roomList.add(new Room("ballada", new ArrayList<>(), new ArrayList<>()));
         assertThat(roomService.modifyRoomSeats("ballada", 33, 10), equalTo(true));
     }
 
     @SneakyThrows
     @Test
     public void testModifyRoomsShouldReturnFalseWhenTheRoomDoesNotExist() {
-        roomList.add(new Room("ballada", new ArrayList<>(), 0, 0, new ArrayList<>()));
+        roomList.add(new Room("ballada", new ArrayList<>(), new ArrayList<>()));
         assertThat(roomService.modifyRoomSeats("ballada2", 33, 10), equalTo(false));
     }
 
     @SneakyThrows
     @Test
     public void testDeleteRoomReturnTrueWhenDeleteWasSuccessful() {
-        roomList.add(new Room("ballada", new ArrayList<>(), 0, 0, new ArrayList<>()));
+        roomList.add(new Room("ballada", new ArrayList<>(), new ArrayList<>()));
         assertThat(roomService.deleteRoom("ballada"), equalTo(true));
     }
 
@@ -91,7 +91,7 @@ public class RoomServiceTest {
     @SneakyThrows
     @Test
     public void testDeleteRoomShouldRemoveTheGivenRoomFromTheList() {
-        Room room = new Room("ballada", new ArrayList<>(), 0, 0, new ArrayList<>());
+        Room room = new Room("ballada", new ArrayList<>(), new ArrayList<>());
         roomList.add(room);
         roomService.deleteRoom("ballada");
         assertThat(roomList.contains(room), equalTo(false));
