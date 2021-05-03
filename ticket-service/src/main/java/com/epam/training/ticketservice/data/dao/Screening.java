@@ -38,8 +38,10 @@ public class Screening {
     private Room roomOfScreening;
     @Column(nullable = false)
     private LocalDateTime startOfScreening;
-    @Column(nullable = false)
-    private LocalDateTime endOfScreening;
+
+    public LocalDateTime getEndOfScreening() {
+        return startOfScreening.plusMinutes(movie.getLength());
+    }
 
     @Override
     public String toString() {

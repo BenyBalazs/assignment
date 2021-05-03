@@ -113,8 +113,6 @@ public class ScreeningService implements ScreeningServiceInterface {
         screening.setRoomOfScreening(roomOfScreening);
         screening.setMovie(movieToScreen);
         screening.setStartOfScreening(startOfScreening);
-        screening.setEndOfScreening(screeningValidator.addMinutesToDateTime(startOfScreening,
-                movieToScreen.getLength()));
 
         return screening;
     }

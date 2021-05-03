@@ -122,7 +122,7 @@ public class BookingServiceTest {
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         Room room = new Room("asd", new ArrayList<>(), new ArrayList<>());
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter).plusMinutes(movie.getLength()));
+        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         when(seatRepository.findByRoomAndRowPositionAndColPosition(Mockito.any(Room.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(null);
@@ -138,7 +138,7 @@ public class BookingServiceTest {
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         Room room = new Room("asd", new ArrayList<>(), new ArrayList<>());
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter).plusMinutes(movie.getLength()));
+        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         Seat seat = new Seat(1, 1, 6, room, new ArrayList<>());
@@ -158,7 +158,7 @@ public class BookingServiceTest {
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         Room room = new Room("asd", new ArrayList<>(), new ArrayList<>());
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter).plusMinutes(movie.getLength()));
+        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         Seat seat = new Seat(1, 1, 6, room, new ArrayList<>());

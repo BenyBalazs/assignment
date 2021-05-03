@@ -39,7 +39,6 @@ public class ScreeningHelperUtilityTest {
         Room room = new Room();
         room.setRoomName("asdasd");
         screening1.setRoomOfScreening(room);
-        screening1.setEndOfScreening(screening1.getStartOfScreening().plusMinutes(screening1.getMovie().getLength()));
         screeningList.add(screening1);
 
         Screening screening2 = new Screening();
@@ -47,7 +46,6 @@ public class ScreeningHelperUtilityTest {
         screening2.setStartOfScreening(LocalDateTime.parse("2021-04-20 17:22", dateTimeFormatter));
         screening2.setMovie(movie);
         screening2.setRoomOfScreening(room);
-        screening2.setEndOfScreening(screening2.getStartOfScreening().plusMinutes(screening2.getMovie().getLength()));
         screeningList.add(screening2);
 
     }
