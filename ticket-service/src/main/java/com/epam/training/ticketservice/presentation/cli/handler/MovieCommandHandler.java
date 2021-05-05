@@ -1,10 +1,10 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
-import com.epam.training.ticketservice.commands.movie.CreateMovieCommand;
-import com.epam.training.ticketservice.commands.movie.DeleteMovieCommand;
-import com.epam.training.ticketservice.commands.movie.ListMoviesCommand;
-import com.epam.training.ticketservice.commands.movie.ModifyMovieCommand;
+import com.epam.training.ticketservice.data.dao.Movie;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
+import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.MovieServiceInterface;
+import com.epam.training.ticketservice.utils.Lister;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -19,26 +19,47 @@ public class MovieCommandHandler {
 
     @ShellMethod(value = "This is used to persist new movies to the database", key = "create movie")
     public String createMovie(String title, String genre, int length) {
-        CreateMovieCommand command = new CreateMovieCommand(movieService, title, genre, length);
-        return command.execute();
+        try {
+            if (movieService.createMovie(title, genre, length)) {
+                return "";
+            } else {
+                return "This movie is already created";
+            }
+        } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
+            return e.getMessage();
+        }
     }
 
     @ShellMethod(value = "This command is used to modify existing movies", key = "update movie")
     public String updateMovie(String title, String genre, int length) {
-        ModifyMovieCommand command = new ModifyMovieCommand(movieService, title, genre, length);
-        return command.execute();
+        try {
+            movieService.modifyMovie(title, genre, length);
+        } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
+            return e.getMessage();
+        }
+        return "Movie modified.";
     }
 
     @ShellMethod(value = "This command is used to delete existing movies", key = "delete movie")
     public String deleteMovie(String title) {
-        DeleteMovieCommand command = new DeleteMovieCommand(movieService, title);
-        return command.execute();
+        try {
+            if (movieService.deleteMovie(title)) {
+                return "Movie deleted.";
+            } else {
+                return "No movie found";
+            }
+
+        } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
+            return e.getMessage();
+        }
     }
 
     @ShellMethod(value = "This command is used to list all movies.", key = "list movies")
     public String listMovies() {
-        ListMoviesCommand command = new ListMoviesCommand(movieService);
-        return command.execute();
+        Lister<Movie> lister =
+                new Lister<Movie>("There are no movies at the moment", movieService.getAllMoviesAsList());
+
+        return lister.list();
     }
 
 }

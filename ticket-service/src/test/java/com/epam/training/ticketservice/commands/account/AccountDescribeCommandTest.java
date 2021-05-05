@@ -8,6 +8,8 @@ import com.epam.training.ticketservice.data.dao.Ticket;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.presentation.cli.configuration.CliConfiguration;
+import com.epam.training.ticketservice.presentation.cli.handler.DescribeCommandHandler;
+import com.epam.training.ticketservice.presentation.cli.utils.BookingStringBuilder;
 import com.epam.training.ticketservice.service.user.AccountDescribeService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +31,9 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = CliConfiguration.class)
 public class AccountDescribeCommandTest {
 
-    AccountDescribeCommand underTest;
+    DescribeCommandHandler underTest;
+    @Autowired
+    BookingStringBuilder bookingStringBuilder;
     @Autowired
     DateTimeFormatter dateTimeFormatter;
     @MockBean
@@ -38,7 +42,7 @@ public class AccountDescribeCommandTest {
     @BeforeEach
     public void setUp() {
         accountDescribeService = Mockito.mock(AccountDescribeService.class);
-        underTest = new AccountDescribeCommand(accountDescribeService,dateTimeFormatter);
+        underTest = new DescribeCommandHandler(accountDescribeService, bookingStringBuilder);
     }
 
     @SneakyThrows
@@ -46,7 +50,7 @@ public class AccountDescribeCommandTest {
     public void testExecuteShouldReturnNonAdminSignedInMassageAndNoBookingWhenTheUserIsLoggedInAndHasNoBookingsAndDoesNotHaveAdminAccess() {
         User user = new User("bela", "123", User.Role.USER, new ArrayList<>());
         when(accountDescribeService.getUser()).thenReturn(user);
-        assertThat(underTest.execute(), equalTo("Signed in with account 'bela'\nYou have not booked any tickets yet"));
+        assertThat(underTest.describeAccount(), equalTo("Signed in with account 'bela'\nYou have not booked any tickets yet"));
     }
 
     @SneakyThrows
@@ -54,7 +58,7 @@ public class AccountDescribeCommandTest {
     public void testExecuteShouldReturnAdminSignedInMassageAndNoBookingWhenTheUserIsLoggedInAndHasNoBookingsAndHasAdminAccess() {
         User user = new User("bela", "123", User.Role.ADMIN, new ArrayList<>());
         when(accountDescribeService.getUser()).thenReturn(user);
-        assertThat(underTest.execute(), equalTo("Signed in with privileged account 'bela'\nYou have not booked any tickets yet"));
+        assertThat(underTest.describeAccount(), equalTo("Signed in with privileged account 'bela'\nYou have not booked any tickets yet"));
     }
 
     @SneakyThrows
@@ -71,7 +75,7 @@ public class AccountDescribeCommandTest {
 
         when(accountDescribeService.getUser()).thenReturn(user);
 
-        assertThat(underTest.execute(), equalTo("Signed in with privileged account 'bela'\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
+        assertThat(underTest.describeAccount(), equalTo("Signed in with privileged account 'bela'\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
     }
 
     @SneakyThrows
@@ -88,7 +92,7 @@ public class AccountDescribeCommandTest {
 
         when(accountDescribeService.getUser()).thenReturn(user);
 
-        assertThat(underTest.execute(), equalTo("Signed in with account 'bela'\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
+        assertThat(underTest.describeAccount(), equalTo("Signed in with account 'bela'\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
 
     }
 
@@ -97,6 +101,6 @@ public class AccountDescribeCommandTest {
     public void testExecuteShouldReturnUserNotSignedInMassageWhenTheUserIsNotSignedIn() {
         when(accountDescribeService.getUser()).thenThrow(new UserNotLoggedInException());
 
-        assertThat(underTest.execute(), equalTo("You are not signed in"));
+        assertThat(underTest.describeAccount(), equalTo("You are not signed in"));
     }
 }

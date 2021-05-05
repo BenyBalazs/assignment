@@ -1,29 +1,38 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
-import com.epam.training.ticketservice.commands.account.AccountDescribeCommand;
+import com.epam.training.ticketservice.presentation.cli.utils.BookingStringBuilder;
+import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.AccountDescribeInterface;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-
-import java.time.format.DateTimeFormatter;
 
 @ShellComponent
 public class DescribeCommandHandler {
 
     private AccountDescribeInterface accountDescribeService;
-    private DateTimeFormatter dateTimeFormatter;
+    private BookingStringBuilder bookingStringBuilder;
 
     public DescribeCommandHandler(AccountDescribeInterface accountDescribeService,
-                                  DateTimeFormatter dateTimeFormatter) {
+                                  BookingStringBuilder bookingStringBuilder) {
         this.accountDescribeService = accountDescribeService;
-        this.dateTimeFormatter = dateTimeFormatter;
+        this.bookingStringBuilder = bookingStringBuilder;
     }
 
     @ShellMethod(value = "Describes the currently logged in account.", key = "describe account")
     public String describeAccount() {
-        AccountDescribeCommand accountDescribeCommand =
-                new AccountDescribeCommand(accountDescribeService, dateTimeFormatter);
 
-        return accountDescribeCommand.execute();
+        try {
+            User user = accountDescribeService.getUser();
+            if (User.Role.USER.equals(user.getRole())) {
+                return "Signed in with account" + " '" + user.getUsername() + "'" + "\n"
+                        + bookingStringBuilder.buildBookingString(user.getTickets());
+            } else {
+                return "Signed in with privileged account" + " '" + user.getUsername() + "'" + "\n"
+                        + bookingStringBuilder.buildBookingString(user.getTickets());
+            }
+        } catch (UserNotLoggedInException e) {
+            return e.getMessage();
+        }
     }
 }

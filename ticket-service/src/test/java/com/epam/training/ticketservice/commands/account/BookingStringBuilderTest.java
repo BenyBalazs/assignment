@@ -7,6 +7,7 @@ import com.epam.training.ticketservice.data.dao.Seat;
 import com.epam.training.ticketservice.data.dao.Ticket;
 import com.epam.training.ticketservice.data.dao.User;
 import com.epam.training.ticketservice.presentation.cli.configuration.CliConfiguration;
+import com.epam.training.ticketservice.presentation.cli.utils.BookingStringBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
