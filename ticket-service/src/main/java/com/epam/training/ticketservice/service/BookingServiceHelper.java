@@ -37,6 +37,8 @@ public class BookingServiceHelper {
 
     public BookingActionResult setTicketsToSave(List<SeatIntPair> seatsToBook,
                                                 Screening screening, Room roomOfScreening) {
+        ticketsToSave = new ArrayList<>();
+
         Ticket ticketToVerify;
         SeatIntPair seatIntPair = null;
         try {
@@ -81,7 +83,8 @@ public class BookingServiceHelper {
     }
 
     public int calculateTicketPrice(List<Ticket> tickets) {
-        return tickets.stream().map(Ticket::getTicketPrice).reduce(Integer::sum).orElse(0);
+        System.out.println(tickets);
+        return tickets.stream().map(Ticket::getTicketPrice).reduce(0, Integer::sum);
     }
 
     public List<Ticket> getTicketsToSave() {

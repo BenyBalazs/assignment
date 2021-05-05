@@ -25,9 +25,4 @@ public class CliConfiguration {
     public DateTimeFormatter dateTimeFormatter() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     }
-
-    @Bean
-    public BookingStringBuilder bookingStringBuilder(DateTimeFormatter dateTimeFormatter) {
-        return new BookingStringBuilder(dateTimeFormatter);
-    }
 }

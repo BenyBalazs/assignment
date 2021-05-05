@@ -28,7 +28,9 @@ public class BookingCommandHandler {
 
         SeatIntPairBuilder seatIntPairBuilder = new SeatIntPairBuilder();
         LocalDateTime parsedStartOfScreening = LocalDateTime.parse(startOfScreening, dateTimeFormatter);
-        List<SeatIntPair> seatsToBook = seatIntPairBuilder.buildList(seats);
+        List<SeatIntPair> seatsToBook = null;
+        seatsToBook = seatIntPairBuilder.buildList(seats);
+        System.out.println(seatsToBook);
 
         try {
             BookingActionResult actionResult = bookingService
@@ -40,7 +42,7 @@ public class BookingCommandHandler {
                 return "Seat" + actionResult.getSeatIntPair().toString() + " does not exist in this room";
             }
             return "Seats booked: " + buildSeatString(seatsToBook)
-                    + "; the price for this booking is " + actionResult.getPrice() + "HUF";
+                    + "; the price for this booking is " + actionResult.getPrice() + " HUF";
         } catch (UserNotLoggedInException e) {
             return e.getMessage();
         }
