@@ -30,7 +30,7 @@ public class UserCommandHandler {
             if (logInService.logIn(username, password)) {
                 return "";
             }
-            return "Login failed due to incorrect credentials.";
+            return "Login failed due to incorrect credentials";
         } catch (UserAlreadyLoggedInException e) {
             return e.getMessage();
         }
@@ -42,7 +42,7 @@ public class UserCommandHandler {
             if (privilegedLogInService.logIn(username,password)) {
                 return "";
             }
-            return "Login failed due to incorrect credentials.";
+            return "Login failed due to incorrect credentials";
         } catch (UserAlreadyLoggedInException | NotAuthorizedOperationException e) {
             return e.getMessage();
         }

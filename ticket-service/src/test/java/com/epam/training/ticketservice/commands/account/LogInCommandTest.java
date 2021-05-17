@@ -59,7 +59,7 @@ public class LogInCommandTest {
     public void testCommandShouldReturnLoginFailureStringWhenInvalidCredentialsAreGiven() {
         users.add(new User("admin", "admin", User.Role.ADMIN));
 
-        assertThat(logInCommand.singIn("admin2", "admin"), equalTo("Login failed due to incorrect credentials."));
+        assertThat(logInCommand.singIn("admin2", "admin"), equalTo("Login failed due to incorrect credentials"));
     }
 
     @Test
@@ -67,6 +67,6 @@ public class LogInCommandTest {
         users.add(new User("admin", "admin", User.Role.ADMIN));
         logInCommand.singIn("admin", "admin");
 
-        assertThat(logInCommand.singIn("admin", "admin"), equalTo("You are already logged in."));
+        assertThat(logInCommand.singIn("admin", "admin"), equalTo("You are already logged in"));
     }
 }

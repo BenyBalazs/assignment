@@ -46,7 +46,7 @@ public class BookingStringBuilderTest {
         Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
 
-        assertThat(underTest.buildBookingString(List.of(ticket)), equalTo("Seats (1,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 1500 HUF"));
+        assertThat(underTest.buildBookingString(List.of(ticket)), equalTo("Your previous bookings are\nSeats (1,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 1500 HUF"));
     }
 
     @Test
@@ -59,7 +59,7 @@ public class BookingStringBuilderTest {
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
         Ticket ticket1 = new Ticket(2, 1500, seat1, new User(), screening);
 
-        assertThat(underTest.buildBookingString(List.of(ticket,ticket1)), equalTo("Seats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
+        assertThat(underTest.buildBookingString(List.of(ticket,ticket1)), equalTo("Your previous bookings are\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
     }
 
     @Test
@@ -73,6 +73,6 @@ public class BookingStringBuilderTest {
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
         Ticket ticket1 = new Ticket(2, 1500, seat1, new User(), screening1);
 
-        assertThat(underTest.buildBookingString(List.of(ticket1,ticket)), equalTo("Seats (2,1) on Spirited Away in room Pedersoli starting at 2021-04-23 00:44 for 1500 HUF\nSeats (1,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 1500 HUF"));
+        assertThat(underTest.buildBookingString(List.of(ticket1,ticket)), equalTo("Your previous bookings are\nSeats (2,1) on Spirited Away in room Pedersoli starting at 2021-04-23 00:44 for 1500 HUF\nSeats (1,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 1500 HUF"));
     }
 }

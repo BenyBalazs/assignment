@@ -50,14 +50,14 @@ public class PrivilegedLogInCommandTest {
     @Test
     public void testExecuteLoginFailedWhenIncorrectCredentialsAreGiven() {
         when(privilegedLogInService.logIn(Mockito.any(String.class), Mockito.anyString())).thenReturn(false);
-        assertThat(logInCommand.singInPrivileged("asd", "asd"), equalTo("Login failed due to incorrect credentials."));
+        assertThat(logInCommand.singInPrivileged("asd", "asd"), equalTo("Login failed due to incorrect credentials"));
     }
 
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnAlreadyLoggedInUserAlreadyLoggedInExceptionIsThrown() {
         when(privilegedLogInService.logIn(Mockito.any(String.class), Mockito.anyString())).thenThrow(new UserAlreadyLoggedInException());
-        assertThat(logInCommand.singInPrivileged("asd", "asd"), equalTo("You are already logged in."));
+        assertThat(logInCommand.singInPrivileged("asd", "asd"), equalTo("You are already logged in"));
     }
 
     @SneakyThrows

@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.presentation.cli.configuration;
 
-import com.epam.training.ticketservice.presentation.cli.utils.BookingStringBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -83,7 +83,6 @@ public class BookingServiceHelper {
     }
 
     public int calculateTicketPrice(List<Ticket> tickets) {
-        System.out.println(tickets);
         return tickets.stream().map(Ticket::getTicketPrice).reduce(0, Integer::sum);
     }
 

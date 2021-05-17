@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = CliConfiguration.class)
+@SpringBootTest(classes = {BookingStringBuilder.class, CliConfiguration.class})
 public class AccountDescribeCommandTest {
 
     DescribeCommandHandler underTest;
@@ -75,7 +75,7 @@ public class AccountDescribeCommandTest {
 
         when(accountDescribeService.getUser()).thenReturn(user);
 
-        assertThat(underTest.describeAccount(), equalTo("Signed in with privileged account 'bela'\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
+        assertThat(underTest.describeAccount(), equalTo("Signed in with privileged account 'bela'\nYour previous bookings are\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
     }
 
     @SneakyThrows
@@ -92,7 +92,7 @@ public class AccountDescribeCommandTest {
 
         when(accountDescribeService.getUser()).thenReturn(user);
 
-        assertThat(underTest.describeAccount(), equalTo("Signed in with account 'bela'\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
+        assertThat(underTest.describeAccount(), equalTo("Signed in with account 'bela'\nYour previous bookings are\nSeats (1,1), (2,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 3000 HUF"));
 
     }
 

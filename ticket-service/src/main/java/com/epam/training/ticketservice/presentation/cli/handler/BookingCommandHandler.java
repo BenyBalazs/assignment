@@ -30,16 +30,15 @@ public class BookingCommandHandler {
         LocalDateTime parsedStartOfScreening = LocalDateTime.parse(startOfScreening, dateTimeFormatter);
         List<SeatIntPair> seatsToBook = null;
         seatsToBook = seatIntPairBuilder.buildList(seats);
-        System.out.println(seatsToBook);
 
         try {
             BookingActionResult actionResult = bookingService
                     .bookSeat(title, roomName, parsedStartOfScreening, seatsToBook);
             if ("Taken".equals(actionResult.getMessage())) {
-                return "Seat" + actionResult.getSeatIntPair().toString() + " is already taken";
+                return "Seat " + actionResult.getSeatIntPair().toString() + " is already taken";
             }
             if ("NoSeat".equals(actionResult.getMessage())) {
-                return "Seat" + actionResult.getSeatIntPair().toString() + " does not exist in this room";
+                return "Seat " + actionResult.getSeatIntPair().toString() + " does not exist in this room";
             }
             return "Seats booked: " + buildSeatString(seatsToBook)
                     + "; the price for this booking is " + actionResult.getPrice() + " HUF";
@@ -49,7 +48,7 @@ public class BookingCommandHandler {
     }
 
     private String buildSeatString(List<SeatIntPair> seats) {
-        return seats.stream().map(SeatIntPair::toString).collect(Collectors.joining(","));
+        return seats.stream().map(SeatIntPair::toString).collect(Collectors.joining(", "));
     }
 }
 

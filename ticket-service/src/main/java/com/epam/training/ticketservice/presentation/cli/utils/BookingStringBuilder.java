@@ -28,6 +28,8 @@ public class BookingStringBuilder {
                 .map(Ticket::getScreening).distinct().collect(Collectors.toList());
 
         StringBuilder sb = new StringBuilder();
+        sb.append("Your previous bookings are");
+        sb.append("\n");
         for (var screening : distinctScreenings) {
 
             sb.append("Seats ");
