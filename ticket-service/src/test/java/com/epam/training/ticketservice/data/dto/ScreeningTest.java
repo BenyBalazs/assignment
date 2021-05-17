@@ -21,8 +21,8 @@ public class ScreeningTest {
     public void setUp() {
         dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         screening = new Screening(1,
-                new Movie("asdasd", "asdasd", 120, null),
-                new Room("ballada", null, null),
+                new Movie("asdasd", "asdasd", 120, null, null),
+                new Room("ballada", null, null,null),
                 LocalDateTime.parse("2021-04-22 16:00", dateTimeFormatter));
     }
 

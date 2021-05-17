@@ -24,6 +24,11 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(classes = CliConfiguration.class)
 public class BookingStringBuilderTest {
 
+    private static final Room roomOfScreening  = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    private static final Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>(), new ArrayList<>());
+    private static final User basicUser = new User("bela", "123", User.Role.USER, new ArrayList<>());
+    private static final User adminUser = new User("bela", "123", User.Role.ADMIN, new ArrayList<>());
+
     @Autowired
     private DateTimeFormatter dateTimeFormatter;
     private BookingStringBuilder underTest;
@@ -40,10 +45,8 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnFormattedTickets() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
-        Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
-        Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
 
         assertThat(underTest.buildBookingString(List.of(ticket)), equalTo("Your previous bookings are\nSeats (1,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 1500 HUF"));
@@ -51,11 +54,9 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnOneLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsOnlyInOneScreening() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
-        Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
-        Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
-        Seat seat1 = new Seat(1, 2, 1, room, new ArrayList<>());
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
+        Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
         Ticket ticket1 = new Ticket(2, 1500, seat1, new User(), screening);
 
@@ -64,12 +65,11 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnTwoLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsInMultipleScreening() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
-        Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
-        Screening screening1 = new Screening(2, movie, room, LocalDateTime.parse("2021-04-23 00:44", dateTimeFormatter));
-        Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
-        Seat seat1 = new Seat(1, 2, 1, room, new ArrayList<>());
+
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Screening screening1 = new Screening(2, movie, roomOfScreening, LocalDateTime.parse("2021-04-23 00:44", dateTimeFormatter));
+        Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
+        Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
         Ticket ticket1 = new Ticket(2, 1500, seat1, new User(), screening1);
 

@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -34,7 +35,13 @@ public class Room {
 
     @OneToMany(mappedBy = "roomOfScreening")
     @LazyCollection(LazyCollectionOption.FALSE)
+    @EqualsAndHashCode.Exclude
     private List<Screening> screeningList;
+
+    @ManyToMany(mappedBy = "attachedRooms")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @EqualsAndHashCode.Exclude
+    List<PriceComponent> attachedComponents;
 
     public int getMaxRows() {
         return seats.stream().mapToInt(Seat::getRowPosition).max().orElse(0);

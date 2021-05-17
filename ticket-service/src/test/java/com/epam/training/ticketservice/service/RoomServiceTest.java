@@ -1,6 +1,8 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.data.entity.Movie;
 import com.epam.training.ticketservice.data.entity.Room;
+import com.epam.training.ticketservice.data.entity.User;
 import com.epam.training.ticketservice.data.repository.RoomRepository;
 import com.epam.training.ticketservice.data.repository.SeatRepository;
 import com.epam.training.ticketservice.service.user.AuthorizationService;
@@ -20,6 +22,11 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
 public class RoomServiceTest {
+
+    private static final Room roomOfScreening  = new Room("ballada", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    private static final Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>(), new ArrayList<>());
+    private static final User basicUser = new User("bela", "123", User.Role.USER, new ArrayList<>());
+    private static final User adminUser = new User("bela", "123", User.Role.ADMIN, new ArrayList<>());
 
     private RoomService roomService;
     @MockBean
@@ -57,28 +64,28 @@ public class RoomServiceTest {
     @SneakyThrows
     @Test
     public void testCreateRoomShouldReturnFalseWhenTheRoomWithTheSameNameAlreadyExists() {
-        roomList.add(new Room("ballada", new ArrayList<>(), null));
+        roomList.add(roomOfScreening);
         assertThat(roomService.createRoom("ballada", 10,10), equalTo(false));
 
     }
     @SneakyThrows
     @Test
     public void testModifyRoomsShouldReturnTrueWhenTheModificationWasSuccessful() {
-        roomList.add(new Room("ballada", new ArrayList<>(), new ArrayList<>()));
+        roomList.add(roomOfScreening);
         assertThat(roomService.modifyRoomSeats("ballada", 33, 10), equalTo(true));
     }
 
     @SneakyThrows
     @Test
     public void testModifyRoomsShouldReturnFalseWhenTheRoomDoesNotExist() {
-        roomList.add(new Room("ballada", new ArrayList<>(), new ArrayList<>()));
+        roomList.add(roomOfScreening);
         assertThat(roomService.modifyRoomSeats("ballada2", 33, 10), equalTo(false));
     }
 
     @SneakyThrows
     @Test
     public void testDeleteRoomReturnTrueWhenDeleteWasSuccessful() {
-        roomList.add(new Room("ballada", new ArrayList<>(), new ArrayList<>()));
+        roomList.add(roomOfScreening);
         assertThat(roomService.deleteRoom("ballada"), equalTo(true));
     }
 
@@ -91,7 +98,7 @@ public class RoomServiceTest {
     @SneakyThrows
     @Test
     public void testDeleteRoomShouldRemoveTheGivenRoomFromTheList() {
-        Room room = new Room("ballada", new ArrayList<>(), new ArrayList<>());
+        Room room = roomOfScreening;
         roomList.add(room);
         roomService.deleteRoom("ballada");
         assertThat(roomList.contains(room), equalTo(false));

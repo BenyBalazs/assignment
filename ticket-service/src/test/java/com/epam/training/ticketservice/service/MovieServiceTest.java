@@ -19,6 +19,8 @@ import static org.mockito.Mockito.when;
 
 public class MovieServiceTest {
 
+    private static final Movie movie = new Movie("asd", "asd", 120, null, null);
+
     MovieService movieService;
     MovieRepository movieRepository;
     List<Movie> movieList;
@@ -53,35 +55,35 @@ public class MovieServiceTest {
     @SneakyThrows
     @Test
     public void testShouldReturnFalseWhenMovieAlreadyExists() {
-        movieList.add(new Movie("asd", "asd", 120, null));
+        movieList.add(movie);
         assertThat(movieService.createMovie("asd","asd",120), equalTo(false));
     }
 
     @SneakyThrows
     @Test
     public void testShouldReturnTrueWhenSuccessfullyModifyingAMovie() {
-        movieList.add(new Movie("asd", "asd", 120, null));
+        movieList.add(movie);
         assertThat(movieService.modifyMovie("asd","asdasd",120), equalTo(true));
     }
 
     @SneakyThrows
     @Test
     public void testShouldReturnTrueWhenTryingToModifyNonExistingMovie() {
-        movieList.add(new Movie("asd", "asd", 120, null));
+        movieList.add(movie);
         assertThat(movieService.modifyMovie("asdssss","asdasd",120), equalTo(false));
     }
 
     @SneakyThrows
     @Test
     public void testShouldReturnTrueWhenTryingToDeleteAMovieAndTheMovieIsInTheDatabase() {
-        movieList.add(new Movie("asd", "asd", 120, null));
+        movieList.add(movie);
         assertThat(movieService.deleteMovie("asd"), equalTo(true));
     }
 
     @SneakyThrows
     @Test
     public void testShouldReturnTrueWhenTryingToDeleteNonExistingMovie() {
-        movieList.add(new Movie("asd", "asd", 120, null));
+        movieList.add(movie);
         assertThat(movieService.deleteMovie("asdssss"), equalTo(false));
     }
 

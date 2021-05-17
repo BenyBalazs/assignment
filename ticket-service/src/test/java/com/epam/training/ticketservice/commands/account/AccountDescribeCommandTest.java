@@ -31,6 +31,11 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = {BookingStringBuilder.class, CliConfiguration.class})
 public class AccountDescribeCommandTest {
 
+    private static final Room roomOfScreening  = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    private static final Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>(), new ArrayList<>());
+    private static final User basicUser = new User("bela", "123", User.Role.USER, new ArrayList<>());
+    private static final User adminUser = new User("bela", "123", User.Role.ADMIN, new ArrayList<>());
+
     DescribeCommandHandler underTest;
     @Autowired
     BookingStringBuilder bookingStringBuilder;
@@ -48,27 +53,23 @@ public class AccountDescribeCommandTest {
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnNonAdminSignedInMassageAndNoBookingWhenTheUserIsLoggedInAndHasNoBookingsAndDoesNotHaveAdminAccess() {
-        User user = new User("bela", "123", User.Role.USER, new ArrayList<>());
-        when(accountDescribeService.getUser()).thenReturn(user);
+        when(accountDescribeService.getUser()).thenReturn(basicUser);
         assertThat(underTest.describeAccount(), equalTo("Signed in with account 'bela'\nYou have not booked any tickets yet"));
     }
 
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnAdminSignedInMassageAndNoBookingWhenTheUserIsLoggedInAndHasNoBookingsAndHasAdminAccess() {
-        User user = new User("bela", "123", User.Role.ADMIN, new ArrayList<>());
-        when(accountDescribeService.getUser()).thenReturn(user);
+        when(accountDescribeService.getUser()).thenReturn(adminUser);
         assertThat(underTest.describeAccount(), equalTo("Signed in with privileged account 'bela'\nYou have not booked any tickets yet"));
     }
 
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnAdminSignedInMassageAndProperlyFormattedBookingMassageWhenTheUserIsLoggedInAndHasBookingsAndHasAdminAccess() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
-        Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
-        Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
-        Seat seat1 = new Seat(1, 2, 1, room, new ArrayList<>());
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
+        Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
         Ticket ticket1 = new Ticket(2, 1500, seat1, new User(), screening);
         User user = new User("bela", "123", User.Role.ADMIN, List.of(ticket,ticket1));
@@ -81,11 +82,9 @@ public class AccountDescribeCommandTest {
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnUserSignedInMassageAndProperlyFormattedBookingMassageWhenTheUserIsLoggedInAndHasBookingsAndDoesNotHaveAdminAccess() {
-        Room room = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>());
-        Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>());
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
-        Seat seat = new Seat(1, 1, 1, room, new ArrayList<>());
-        Seat seat1 = new Seat(1, 2, 1, room, new ArrayList<>());
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
+        Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
         Ticket ticket1 = new Ticket(2, 1500, seat1, new User(), screening);
         User user = new User("bela", "123", User.Role.USER, List.of(ticket,ticket1));

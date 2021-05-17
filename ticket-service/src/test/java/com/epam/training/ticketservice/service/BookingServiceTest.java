@@ -39,6 +39,11 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(classes = {BookingService.class, AuthorizationService.class, ActiveUserStore.class, CliConfiguration.class, BookingServiceHelper.class})
 public class BookingServiceTest {
 
+    private static final Room roomOfScreening  = new Room("Pedersoli", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    private static final Movie movie = new Movie("Spirited Away", "anime", 88, new ArrayList<>(), new ArrayList<>());
+    private static final User basicUser = new User("bela", "123", User.Role.USER, new ArrayList<>());
+    private static final User adminUser = new User("bela", "123", User.Role.ADMIN, new ArrayList<>());
+
     BookingService underTest;
     BookingServiceHelper bookingServiceHelper;
     @MockBean
@@ -90,8 +95,7 @@ public class BookingServiceTest {
     @Test
     public void testBookSeatShouldReturnTheProperBookingActionResultWhenMovieIsFoundButNoRoomIsFound() {
 
-        activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
-        Movie movie = new Movie("asd", "asd", 88, new ArrayList<>());
+        activeUserStore.setActiveUser(adminUser);
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.empty());
 
@@ -103,10 +107,8 @@ public class BookingServiceTest {
     public void testBookSeatShouldReturnTheProperBookingActionResultWhenMovieIsFoundRoomIsFoundButNoScreeningIsFound() {
 
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
-        Movie movie = new Movie("asd", "asd", 88, new ArrayList<>());
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
-        Room room = new Room("asd", new ArrayList<>(), new ArrayList<>());
-        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
+        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(roomOfScreening));
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(null);
 
@@ -118,11 +120,9 @@ public class BookingServiceTest {
     @Test
     public void testBookSeatShouldReturnTheProperBookingActionResultWhenEverythingIsFoundButSeatsAreNotInTheRoom() {
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
-        Movie movie = new Movie("asd", "asd", 88, new ArrayList<>());
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
-        Room room = new Room("asd", new ArrayList<>(), new ArrayList<>());
-        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
+        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(roomOfScreening));
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         when(seatRepository.findByRoomAndRowPositionAndColPosition(Mockito.any(Room.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(null);
@@ -134,14 +134,12 @@ public class BookingServiceTest {
     @Test
     public void testBookSeatShouldReturnTheProperBookingActionResultWhenEverythingIsFoundButSeatIsAlreadyTaken() {
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
-        Movie movie = new Movie("asd", "asd", 88, new ArrayList<>());
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
-        Room room = new Room("asd", new ArrayList<>(), new ArrayList<>());
-        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
+        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(roomOfScreening));
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
-        Seat seat = new Seat(1, 1, 6, room, new ArrayList<>());
+        Seat seat = new Seat(1, 1, 6, roomOfScreening, new ArrayList<>());
         when(seatRepository.findByRoomAndRowPositionAndColPosition(Mockito.any(Room.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(seat);
         Ticket ticket = new Ticket(1, 1500, seat, activeUserStore.getActiveUser(), screening);
         when(ticketRepository.findBySeatAndScreening(Mockito.any(Seat.class), Mockito.any(Screening.class))).thenReturn(ticket);
@@ -154,14 +152,12 @@ public class BookingServiceTest {
     @Test
     public void testBookSeatShouldReturnTheProperBookingActionResultWhenEverythingIsFine() {
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
-        Movie movie = new Movie("asd", "asd", 88, new ArrayList<>());
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
-        Room room = new Room("asd", new ArrayList<>(), new ArrayList<>());
-        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(room));
-        Screening screening = new Screening(1, movie, room, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
+        when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(roomOfScreening));
+        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
-        Seat seat = new Seat(1, 1, 6, room, new ArrayList<>());
+        Seat seat = new Seat(1, 1, 6, roomOfScreening, new ArrayList<>());
         when(seatRepository.findByRoomAndRowPositionAndColPosition(Mockito.any(Room.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(seat);
         when(ticketRepository.findBySeatAndScreening(Mockito.any(Seat.class), Mockito.any(Screening.class))).thenReturn(null);
 

@@ -15,7 +15,7 @@ public class RoomTest {
 
     @BeforeEach
     public void setUp() {
-        room = new Room("ballada", new ArrayList<>(), new ArrayList<>());
+        room = new Room("ballada", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
     @Test
