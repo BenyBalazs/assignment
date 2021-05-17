@@ -1,11 +1,11 @@
 package com.epam.training.ticketservice.commands.account;
 
-import com.epam.training.ticketservice.data.dao.Movie;
-import com.epam.training.ticketservice.data.dao.Room;
-import com.epam.training.ticketservice.data.dao.Screening;
-import com.epam.training.ticketservice.data.dao.Seat;
-import com.epam.training.ticketservice.data.dao.Ticket;
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.Movie;
+import com.epam.training.ticketservice.data.entity.Room;
+import com.epam.training.ticketservice.data.entity.Screening;
+import com.epam.training.ticketservice.data.entity.Seat;
+import com.epam.training.ticketservice.data.entity.Ticket;
+import com.epam.training.ticketservice.data.entity.User;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.presentation.cli.configuration.CliConfiguration;
 import com.epam.training.ticketservice.presentation.cli.handler.DescribeCommandHandler;

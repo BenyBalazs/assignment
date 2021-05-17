@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.service.interfaces;
 
 import com.epam.training.ticketservice.utils.ActionResult;
-import com.epam.training.ticketservice.data.dao.Screening;
+import com.epam.training.ticketservice.data.entity.Screening;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.epam.training.ticketservice.presentation.cli.utils;
 
-import com.epam.training.ticketservice.data.dao.Screening;
-import com.epam.training.ticketservice.data.dao.Seat;
-import com.epam.training.ticketservice.data.dao.Ticket;
+import com.epam.training.ticketservice.data.entity.Screening;
+import com.epam.training.ticketservice.data.entity.Seat;
+import com.epam.training.ticketservice.data.entity.Ticket;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 

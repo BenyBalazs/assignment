@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.data.dto;
 
-import com.epam.training.ticketservice.data.dao.Movie;
+import com.epam.training.ticketservice.data.entity.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

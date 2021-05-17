@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.data.dao.Screening;
+import com.epam.training.ticketservice.data.entity.Screening;
 import com.epam.training.ticketservice.service.interfaces.ScreeningHelperUtilityInterface;
 import org.springframework.stereotype.Component;
 

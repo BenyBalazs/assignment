@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.user.AccountDescribeService;

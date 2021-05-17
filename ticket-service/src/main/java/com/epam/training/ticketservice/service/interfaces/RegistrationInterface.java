@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service.interfaces;
 
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.User;
 
 public interface RegistrationInterface {
 

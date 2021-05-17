@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
 import com.epam.training.ticketservice.service.interfaces.RegistrationInterface;
 import org.springframework.stereotype.Service;

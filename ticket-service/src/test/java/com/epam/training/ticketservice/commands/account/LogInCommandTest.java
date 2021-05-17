@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.commands.account;
 
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.User;
 import com.epam.training.ticketservice.data.repository.UserRepository;
 import com.epam.training.ticketservice.presentation.cli.handler.UserCommandHandler;
 import com.epam.training.ticketservice.service.PrivilegedLogInService;

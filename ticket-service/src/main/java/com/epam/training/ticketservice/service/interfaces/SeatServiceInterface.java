@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.service.interfaces;
 
-import com.epam.training.ticketservice.data.dao.Room;
-import com.epam.training.ticketservice.data.dao.Seat;
+import com.epam.training.ticketservice.data.entity.Room;
+import com.epam.training.ticketservice.data.entity.Seat;
 
 import java.util.List;
 

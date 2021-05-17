@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.utils;
 
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;

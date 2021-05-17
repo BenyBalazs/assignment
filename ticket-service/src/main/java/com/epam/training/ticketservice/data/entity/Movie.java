@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.data.dao;
+package com.epam.training.ticketservice.data.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

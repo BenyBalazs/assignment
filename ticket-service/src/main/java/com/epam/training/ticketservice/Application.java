@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice;
 
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.User;
 import com.epam.training.ticketservice.service.RegistrationService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

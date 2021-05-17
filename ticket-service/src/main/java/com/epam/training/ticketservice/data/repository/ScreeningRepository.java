@@ -1,8 +1,8 @@
 package com.epam.training.ticketservice.data.repository;
 
-import com.epam.training.ticketservice.data.dao.Movie;
-import com.epam.training.ticketservice.data.dao.Room;
-import com.epam.training.ticketservice.data.dao.Screening;
+import com.epam.training.ticketservice.data.entity.Movie;
+import com.epam.training.ticketservice.data.entity.Room;
+import com.epam.training.ticketservice.data.entity.Screening;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

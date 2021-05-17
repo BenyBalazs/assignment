@@ -1,7 +1,6 @@
 package com.epam.training.ticketservice.service.interfaces;
 
-import com.epam.training.ticketservice.data.dao.Room;
-import com.epam.training.ticketservice.data.dao.Screening;
+import com.epam.training.ticketservice.data.entity.Screening;
 
 import java.time.LocalDateTime;
 import java.util.List;

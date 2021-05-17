@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.service;
 
-import com.epam.training.ticketservice.data.dao.Movie;
-import com.epam.training.ticketservice.data.dao.User;
+import com.epam.training.ticketservice.data.entity.Movie;
+import com.epam.training.ticketservice.data.entity.User;
 import com.epam.training.ticketservice.data.repository.MovieRepository;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
