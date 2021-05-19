@@ -31,7 +31,7 @@ public class Room {
     @OneToMany(mappedBy = "room",
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @LazyCollection(LazyCollectionOption.FALSE)
-    List<Seat> seats;
+    private List<Seat> seats;
 
     @OneToMany(mappedBy = "roomOfScreening")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -41,7 +41,7 @@ public class Room {
     @ManyToMany(mappedBy = "attachedRooms")
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
-    List<PriceComponent> attachedComponents;
+    private List<PriceComponent> attachedComponents;
 
     public int getMaxRows() {
         return seats.stream().mapToInt(Seat::getRowPosition).max().orElse(0);

@@ -14,6 +14,8 @@ import com.epam.training.ticketservice.data.repository.TicketRepository;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.presentation.cli.configuration.CliConfiguration;
 import com.epam.training.ticketservice.service.user.AuthorizationService;
+import com.epam.training.ticketservice.service.utils.BookingServiceHelper;
+import com.epam.training.ticketservice.service.utils.PriceCalculator;
 import com.epam.training.ticketservice.utils.ActiveUserStore;
 import com.epam.training.ticketservice.utils.BookingActionResult;
 import com.epam.training.ticketservice.utils.SeatIntPair;
@@ -60,8 +62,11 @@ public class BookingServiceTest {
     RoomRepository roomRepository;
     @MockBean
     MovieRepository movieRepository;
+    @MockBean
+    PriceCalculator priceCalculator;
     @Autowired
     DateTimeFormatter dateTimeFormatter;
+    Screening targetScreening;
 
     @BeforeEach
     public void setUp() {
@@ -70,8 +75,10 @@ public class BookingServiceTest {
         ticketRepository = Mockito.mock(TicketRepository.class);
         roomRepository = Mockito.mock(RoomRepository.class);
         movieRepository = Mockito.mock(MovieRepository.class);
-        bookingServiceHelper = new BookingServiceHelper(activeUserStore, seatRepository, ticketRepository);
+        priceCalculator = Mockito.mock(PriceCalculator.class);
+        bookingServiceHelper = new BookingServiceHelper(activeUserStore, seatRepository, ticketRepository, priceCalculator);
         underTest = new BookingService(authorizationService,screeningRepository, ticketRepository, roomRepository, movieRepository ,bookingServiceHelper);
+        targetScreening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), new ArrayList<>());
     }
 
     @Test
@@ -122,7 +129,7 @@ public class BookingServiceTest {
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(roomOfScreening));
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
+        Screening screening = targetScreening;
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         when(seatRepository.findByRoomAndRowPositionAndColPosition(Mockito.any(Room.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(null);
@@ -136,7 +143,7 @@ public class BookingServiceTest {
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(roomOfScreening));
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
+        Screening screening = targetScreening;
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         Seat seat = new Seat(1, 1, 6, roomOfScreening, new ArrayList<>());
@@ -154,12 +161,13 @@ public class BookingServiceTest {
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(roomOfScreening));
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter));
+        Screening screening = targetScreening;
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         Seat seat = new Seat(1, 1, 6, roomOfScreening, new ArrayList<>());
         when(seatRepository.findByRoomAndRowPositionAndColPosition(Mockito.any(Room.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(seat);
         when(ticketRepository.findBySeatAndScreening(Mockito.any(Seat.class), Mockito.any(Screening.class))).thenReturn(null);
+        when(priceCalculator.calculateTicketPrice(Mockito.any(Screening.class), Mockito.any(Seat.class))).thenReturn(1500);
 
         assertThat(underTest.bookSeat("asd", "asd", LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), List.of(new SeatIntPair(1,6))), equalTo(new BookingActionResult("SeatsBooked", true, 1500)));
     }

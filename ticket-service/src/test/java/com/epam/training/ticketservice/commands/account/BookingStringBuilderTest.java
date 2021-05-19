@@ -32,10 +32,14 @@ public class BookingStringBuilderTest {
     @Autowired
     private DateTimeFormatter dateTimeFormatter;
     private BookingStringBuilder underTest;
+    private Screening targetScreening;
+    private Screening targetScreening2;
 
     @BeforeEach
     public void setUp() {
         underTest = new BookingStringBuilder(dateTimeFormatter);
+        targetScreening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), new ArrayList<>());
+        targetScreening2 = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-25 00:44", dateTimeFormatter), new ArrayList<>());
     }
 
     @Test
@@ -45,7 +49,7 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnFormattedTickets() {
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Screening screening = targetScreening;
         Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
 
@@ -54,7 +58,7 @@ public class BookingStringBuilderTest {
 
     @Test
     public void testBuildBookingStringShouldReturnOneLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsOnlyInOneScreening() {
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Screening screening = targetScreening;
         Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
         Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
@@ -66,13 +70,13 @@ public class BookingStringBuilderTest {
     @Test
     public void testBuildBookingStringShouldReturnTwoLineOfFormattedStringWithTheCorrectPriceAndAllTheBookedSeatsWhenTheUserHasBookingsInMultipleScreening() {
 
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
-        Screening screening1 = new Screening(2, movie, roomOfScreening, LocalDateTime.parse("2021-04-23 00:44", dateTimeFormatter));
+        Screening screening = targetScreening;
+        Screening screening1 = targetScreening2;
         Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
         Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
         Ticket ticket1 = new Ticket(2, 1500, seat1, new User(), screening1);
 
-        assertThat(underTest.buildBookingString(List.of(ticket1,ticket)), equalTo("Your previous bookings are\nSeats (2,1) on Spirited Away in room Pedersoli starting at 2021-04-23 00:44 for 1500 HUF\nSeats (1,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 1500 HUF"));
+        assertThat(underTest.buildBookingString(List.of(ticket1,ticket)), equalTo("Your previous bookings are\nSeats (2,1) on Spirited Away in room Pedersoli starting at 2021-04-25 00:44 for 1500 HUF\nSeats (1,1) on Spirited Away in room Pedersoli starting at 2021-04-24 00:44 for 1500 HUF"));
     }
 }

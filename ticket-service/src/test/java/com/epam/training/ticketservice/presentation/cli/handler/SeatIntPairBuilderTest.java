@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
+import com.epam.training.ticketservice.presentation.cli.utils.SeatIntPairBuilder;
 import com.epam.training.ticketservice.utils.SeatIntPair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

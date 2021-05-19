@@ -43,11 +43,13 @@ public class AccountDescribeCommandTest {
     DateTimeFormatter dateTimeFormatter;
     @MockBean
     AccountDescribeService accountDescribeService;
+    Screening targetScreening;
 
     @BeforeEach
     public void setUp() {
         accountDescribeService = Mockito.mock(AccountDescribeService.class);
         underTest = new DescribeCommandHandler(accountDescribeService, bookingStringBuilder);
+        targetScreening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter), new ArrayList<>());
     }
 
     @SneakyThrows
@@ -67,7 +69,7 @@ public class AccountDescribeCommandTest {
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnAdminSignedInMassageAndProperlyFormattedBookingMassageWhenTheUserIsLoggedInAndHasBookingsAndHasAdminAccess() {
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Screening screening = targetScreening;
         Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
         Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);
@@ -82,7 +84,7 @@ public class AccountDescribeCommandTest {
     @SneakyThrows
     @Test
     public void testExecuteShouldReturnUserSignedInMassageAndProperlyFormattedBookingMassageWhenTheUserIsLoggedInAndHasBookingsAndDoesNotHaveAdminAccess() {
-        Screening screening = new Screening(1, movie, roomOfScreening, LocalDateTime.parse("2021-04-24 00:44", dateTimeFormatter));
+        Screening screening = targetScreening;
         Seat seat = new Seat(1, 1, 1, roomOfScreening, new ArrayList<>());
         Seat seat1 = new Seat(1, 2, 1, roomOfScreening, new ArrayList<>());
         Ticket ticket = new Ticket(1,1500, seat, new User(), screening);

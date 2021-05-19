@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.service;
+package com.epam.training.ticketservice.service.utils;
 
 import com.epam.training.ticketservice.data.entity.Screening;
 import com.epam.training.ticketservice.service.interfaces.ScreeningHelperUtilityInterface;

@@ -11,6 +11,7 @@ import com.epam.training.ticketservice.data.repository.TicketRepository;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.interfaces.BookingServiceInterface;
 import com.epam.training.ticketservice.service.user.AuthorizationService;
+import com.epam.training.ticketservice.service.utils.BookingServiceHelper;
 import com.epam.training.ticketservice.utils.BookingActionResult;
 import com.epam.training.ticketservice.utils.SeatIntPair;
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public class BookingService implements BookingServiceInterface {
         Screening screening = screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(screenedMovie, roomOfScreening, startOfScreening);
 
-        BookingActionResult nullCheckResult = nullChecker(screenedMovie, roomOfScreening, screening);
+        BookingActionResult nullCheckResult = bookingServiceHelper.nullChecker(screenedMovie, roomOfScreening, screening);
 
         if (!nullCheckResult.isSuccess()) {
             return nullCheckResult;
@@ -80,18 +81,6 @@ public class BookingService implements BookingServiceInterface {
 
         return new BookingActionResult("SeatsBooked", true,
                 bookingServiceHelper.calculateTicketPrice(ticketsToSave));
-    }
-
-    private BookingActionResult nullChecker(Movie movieToCheck, Room roomToCheck, Screening screeningToCheck) {
-
-        if (movieToCheck == null) {
-            return new BookingActionResult("NoMovie", false);
-        } else if (roomToCheck == null) {
-            return new BookingActionResult("NoRoom", false);
-        } else if (screeningToCheck == null) {
-            return new BookingActionResult("NoScreening", false);
-        }
-        return new BookingActionResult("NoNullValue", true);
     }
 
 

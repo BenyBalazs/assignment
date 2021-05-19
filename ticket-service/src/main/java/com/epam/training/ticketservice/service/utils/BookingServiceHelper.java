@@ -1,5 +1,6 @@
-package com.epam.training.ticketservice.service;
+package com.epam.training.ticketservice.service.utils;
 
+import com.epam.training.ticketservice.data.entity.Movie;
 import com.epam.training.ticketservice.data.entity.Room;
 import com.epam.training.ticketservice.data.entity.Screening;
 import com.epam.training.ticketservice.data.entity.Seat;
@@ -23,15 +24,18 @@ public class BookingServiceHelper {
     private final ActiveUserStore activeUserStore;
     private final SeatRepository seatRepository;
     private final TicketRepository ticketRepository;
+    private final PriceCalculator priceCalculator;
 
     private List<Ticket> ticketsToSave;
 
     public BookingServiceHelper(ActiveUserStore activeUserStore,
                                 SeatRepository seatRepository,
-                                TicketRepository ticketRepository) {
+                                TicketRepository ticketRepository,
+                                PriceCalculator priceCalculator) {
         this.activeUserStore = activeUserStore;
         this.seatRepository = seatRepository;
         this.ticketRepository = ticketRepository;
+        this.priceCalculator = priceCalculator;
         this.ticketsToSave = new ArrayList<>();
     }
 
@@ -75,7 +79,7 @@ public class BookingServiceHelper {
 
     public Ticket createTicketInstance(Screening screening, Seat seat) {
         Ticket ticket = new Ticket();
-        ticket.setTicketPrice(DEFAULT_PRICE);
+        ticket.setTicketPrice(priceCalculator.calculateTicketPrice(screening, seat));
         ticket.setSeat(seat);
         ticket.setUser(activeUserStore.getActiveUser());
         ticket.setScreening(screening);
@@ -86,7 +90,21 @@ public class BookingServiceHelper {
         return tickets.stream().map(Ticket::getTicketPrice).reduce(0, Integer::sum);
     }
 
+    public BookingActionResult nullChecker(Movie movieToCheck, Room roomToCheck, Screening screeningToCheck) {
+
+        if (movieToCheck == null) {
+            return new BookingActionResult("NoMovie", false);
+        } else if (roomToCheck == null) {
+            return new BookingActionResult("NoRoom", false);
+        } else if (screeningToCheck == null) {
+            return new BookingActionResult("NoScreening", false);
+        }
+        return new BookingActionResult("NoNullValue", true);
+    }
+
     public List<Ticket> getTicketsToSave() {
         return ticketsToSave;
     }
+
+
 }

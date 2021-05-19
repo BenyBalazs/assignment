@@ -9,6 +9,7 @@ import com.epam.training.ticketservice.data.repository.ScreeningRepository;
 import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
 import com.epam.training.ticketservice.service.user.AuthorizationService;
+import com.epam.training.ticketservice.service.utils.ScreeningValidator;
 import com.epam.training.ticketservice.utils.ActionResult;
 import com.epam.training.ticketservice.utils.ActiveUserStore;
 import lombok.SneakyThrows;

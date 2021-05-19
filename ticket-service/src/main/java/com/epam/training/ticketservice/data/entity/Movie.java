@@ -29,12 +29,12 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie")
     @LazyCollection(LazyCollectionOption.FALSE)
-    List<Screening> screeningList;
+    private List<Screening> screeningList;
 
-    @ManyToMany(mappedBy = "attachedRooms")
+    @ManyToMany(mappedBy = "attachedMovies")
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
-    List<PriceComponent> attachedComponents;
+    private List<PriceComponent> attachedComponents;
 
     @Override
     public String toString() {

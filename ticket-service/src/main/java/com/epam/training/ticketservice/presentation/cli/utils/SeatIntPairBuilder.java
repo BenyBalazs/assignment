@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.presentation.cli.handler;
+package com.epam.training.ticketservice.presentation.cli.utils;
 
 import com.epam.training.ticketservice.utils.SeatIntPair;
 
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class SeatIntPairBuilder {
+public class SeatIntPairBuilder {
 
     public List<SeatIntPair> buildList(String seats) {
 

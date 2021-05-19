@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -23,7 +24,7 @@ public class ScreeningTest {
         screening = new Screening(1,
                 new Movie("asdasd", "asdasd", 120, null, null),
                 new Room("ballada", null, null,null),
-                LocalDateTime.parse("2021-04-22 16:00", dateTimeFormatter));
+                LocalDateTime.parse("2021-04-22 16:00", dateTimeFormatter), new ArrayList<>());
     }
 
     @Test

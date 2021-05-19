@@ -1,6 +1,7 @@
 package com.epam.training.ticketservice.presentation.cli.handler;
 
 import com.epam.training.ticketservice.exception.UserNotLoggedInException;
+import com.epam.training.ticketservice.presentation.cli.utils.SeatIntPairBuilder;
 import com.epam.training.ticketservice.service.interfaces.BookingServiceInterface;
 import com.epam.training.ticketservice.utils.BookingActionResult;
 import com.epam.training.ticketservice.utils.SeatIntPair;

@@ -4,6 +4,7 @@ import com.epam.training.ticketservice.data.entity.Movie;
 import com.epam.training.ticketservice.data.entity.Room;
 import com.epam.training.ticketservice.data.entity.Screening;
 import com.epam.training.ticketservice.service.interfaces.ScreeningHelperUtilityInterface;
+import com.epam.training.ticketservice.service.utils.ScreeningValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

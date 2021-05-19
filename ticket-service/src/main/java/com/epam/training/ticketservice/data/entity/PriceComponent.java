@@ -29,21 +29,39 @@ public class PriceComponent {
 
     @ManyToMany
     @JoinTable(
-            name = "linked_price_components",
-            joinColumns = @JoinColumn(name = "attached_room"),
-            inverseJoinColumns = @JoinColumn(name = "priceComponentName")
+            name = "room_price_components",
+            joinColumns = @JoinColumn(name = "priceComponentName"),
+            inverseJoinColumns = @JoinColumn(name = "roomName")
     )
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
-    List<Room> attachedRooms;
+    private List<Room> attachedRooms;
 
     @ManyToMany
     @JoinTable(
-            name = "linked_price_components",
-            joinColumns = @JoinColumn(name = "attached_movie"),
+            name = "movie_price_components",
+            joinColumns = @JoinColumn(name = "priceComponentName"),
             inverseJoinColumns = @JoinColumn(name = "title")
     )
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
-    List<Room> attachedMovies;
+    private List<Movie> attachedMovies;
+
+    @ManyToMany
+    @JoinTable(
+            name = "screening_price_components",
+            joinColumns = @JoinColumn(name = "priceComponentName"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @EqualsAndHashCode.Exclude
+    private List<Screening> attachedScreenings;
+
+    @Override
+    public String toString() {
+        return "PriceComponent{" +
+                "priceComponentName='" + priceComponentName + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
