@@ -94,8 +94,6 @@ public class ScreeningService implements ScreeningServiceInterface {
         Screening screeningToDelete = screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(movie.get(), room.get(), startOfScreening);
 
-        System.out.println(screeningToDelete);
-
         logger.trace(screeningToDelete.toString());
         screeningRepository.delete(screeningToDelete);
 

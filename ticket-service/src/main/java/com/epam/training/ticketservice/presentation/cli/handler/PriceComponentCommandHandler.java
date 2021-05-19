@@ -39,7 +39,7 @@ public class PriceComponentCommandHandler {
         }
 
         if (result.getMessage().equals("NoScreening")) {
-            return "No Screening was fount with these variables.";
+            return "No Screening was fount with these variables";
         }
 
         return "Price Component is attached to the screening";
