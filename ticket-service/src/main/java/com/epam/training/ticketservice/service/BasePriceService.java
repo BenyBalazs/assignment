@@ -23,7 +23,7 @@ public class BasePriceService implements BasePriceServiceInterface {
             basePrice.setBasePrice(price);
             basePriceRepository.save(basePrice);
             return true;
-        }catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             persistIfNotFound(price);
             return false;
         }

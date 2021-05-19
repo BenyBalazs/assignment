@@ -8,7 +8,11 @@ import com.epam.training.ticketservice.data.repository.MovieRepository;
 import com.epam.training.ticketservice.data.repository.PriceComponentRepository;
 import com.epam.training.ticketservice.data.repository.RoomRepository;
 import com.epam.training.ticketservice.data.repository.ScreeningRepository;
+import com.epam.training.ticketservice.exception.NotAuthorizedOperationException;
+import com.epam.training.ticketservice.exception.UserNotLoggedInException;
+import com.epam.training.ticketservice.service.user.AuthorizationService;
 import com.epam.training.ticketservice.utils.ActionResult;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -50,6 +54,8 @@ public class PriceComponentServiceTest {
     PriceComponentRepository priceComponentRepository;
     @MockBean
     RoomRepository roomRepository;
+    @MockBean
+    AuthorizationService authorizationService;
 
     @BeforeEach
     public void setUp() {
@@ -57,9 +63,12 @@ public class PriceComponentServiceTest {
         screeningRepository = mock(ScreeningRepository.class);
         priceComponentRepository = mock(PriceComponentRepository.class);
         roomRepository = mock(RoomRepository.class);
-        underTest = new PriceComponentService(movieRepository, screeningRepository, priceComponentRepository, roomRepository);
+        authorizationService = mock(AuthorizationService.class);
+        underTest = new PriceComponentService(movieRepository,
+                screeningRepository, priceComponentRepository, roomRepository, authorizationService);
     }
 
+    @SneakyThrows
     @Test
     public void testCreatePriceComponentShouldReturnFalseWhenComponentAlreadyExists() {
         when(priceComponentRepository.findById(any(String.class))).thenReturn(Optional.of(FOUND_PRICE_COMPONENT));
@@ -69,6 +78,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(false));
     }
 
+    @SneakyThrows
     @Test
     public void testCreatePriceComponentShouldReturnTrueWhenComponentIsCreated() {
         when(priceComponentRepository.findById(any(String.class))).thenReturn(Optional.empty());
@@ -79,7 +89,7 @@ public class PriceComponentServiceTest {
     }
 
     @Test
-    public void testAttachPriceComponentToScreeningShouldReturnTheProperActionResultWhenScreeningIsNotFound() {
+    public void testAttachPriceComponentToScreeningShouldReturnTheProperActionResultWhenScreeningIsNotFound() throws UserNotLoggedInException, NotAuthorizedOperationException {
         when(screeningRepository.findByMovieAndRoomOfScreeningAndStartOfScreening(any(Movie.class), any(Room.class), any(LocalDateTime.class))).thenReturn(null);
 
         ActionResult actual = underTest.attachPriceComponentToScreening(TITLE, ROOM_NAME, START_OF_SCREENING, PRICE_COMPONENT_NAME);
@@ -87,6 +97,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(NO_SCREENING_FOUND));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToScreeningShouldReturnTheProperActionResultWhenPriceComponentIsNotFound() {
         when(screeningRepository.findByMovieAndRoomOfScreeningAndStartOfScreening(any(Movie.class), any(Room.class), any(LocalDateTime.class))).thenReturn(FOUND_SCREENING);
@@ -99,6 +110,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(NO_PRICE_COMPONENT_RESULT));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToScreeningShouldReturnTheProperActionResultWhenEverythingWentOk() {
         when(priceComponentRepository.findById(any(String.class))).thenReturn(Optional.of(FOUND_PRICE_COMPONENT));
@@ -111,6 +123,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(SUCCESS));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToRoomShouldReturnTheProperActionResultWhenPriceComponentIsFound() {
         when(roomRepository.findById(any())).thenReturn(Optional.of(ROOM_OF_SCREENING));
@@ -121,6 +134,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(NO_PRICE_COMPONENT_RESULT));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToRoomShouldReturnTheProperActionResultWhenNoNoRoomIsFound() {
         when(roomRepository.findById(any())).thenReturn(Optional.empty());
@@ -131,6 +145,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(NO_ROOM_FOUND));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToRoomShouldReturnTheProperActionResultWhenNoPriceComponentIsFound() {
         when(roomRepository.findById(any())).thenReturn(Optional.of(ROOM_OF_SCREENING));
@@ -141,6 +156,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(NO_PRICE_COMPONENT_RESULT));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToRoomShouldReturnTheProperActionResultWhenEverythingWentFine() {
         when(roomRepository.findById(any())).thenReturn(Optional.of(ROOM_OF_SCREENING));
@@ -151,6 +167,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(SUCCESS));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToMovieShouldReturnTheProperActionResultWhenEverythingWentFine() {
         when(movieRepository.findById(any())).thenReturn(Optional.of(MOVIE));
@@ -161,6 +178,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(SUCCESS));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToMovieShouldReturnTheProperActionResultWhenNoPriceComponentIsFound() {
         when(movieRepository.findById(any())).thenReturn(Optional.of(MOVIE));
@@ -171,6 +189,7 @@ public class PriceComponentServiceTest {
         assertThat(actual, equalTo(NO_PRICE_COMPONENT_RESULT));
     }
 
+    @SneakyThrows
     @Test
     public void testAttachPriceComponentToMovieShouldReturnTheProperActionResultWhenNoMovieIsFound() {
         when(movieRepository.findById(any())).thenReturn(Optional.empty());

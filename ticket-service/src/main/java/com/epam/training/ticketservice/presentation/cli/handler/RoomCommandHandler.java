@@ -20,8 +20,8 @@ public class RoomCommandHandler {
     @ShellMethod(value = "This method is used to create rooms", key = "create room")
     public String createRoom(String roomName, int rows, int cols) {
         try {
-            if (roomService.createRoom(roomName, cols, rows)) {
-                return "";
+            if (roomService.createRoom(roomName, rows, cols)) {
+                return null;
             } else {
                 return "Room already exists";
             }
@@ -44,8 +44,8 @@ public class RoomCommandHandler {
     @ShellMethod(value = "This method is used to modify room seats", key = "update room")
     public String modifyRoom(String roomName, int rows, int cols) {
         try {
-            roomService.modifyRoomSeats(roomName, cols, rows);
-            return "";
+            roomService.modifyRoomSeats(roomName, rows, cols);
+            return null;
         } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
             return e.getMessage();
         }

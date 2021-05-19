@@ -10,6 +10,6 @@ import java.util.List;
 public interface BookingServiceInterface {
 
     BookingActionResult bookSeat(String movieTitle, String roomName, LocalDateTime startOfScreening,
-                                 List<SeatIntPair> seatsToBook)
+                                 List<SeatIntPair> seatsToBook, boolean persist)
             throws UserNotLoggedInException;
 }

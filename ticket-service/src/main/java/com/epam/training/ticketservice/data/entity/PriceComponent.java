@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -27,31 +28,33 @@ public class PriceComponent {
     String priceComponentName;
     int price;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Room.class, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "room_price_components",
-            joinColumns = @JoinColumn(name = "priceComponentName"),
-            inverseJoinColumns = @JoinColumn(name = "roomName")
+            name = "linked_price_components",
+            joinColumns = @JoinColumn(name = "attached_room"),
+            inverseJoinColumns = @JoinColumn(name = "priceComponentName")
     )
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
     private List<Room> attachedRooms;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Movie.class,
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(
-            name = "movie_price_components",
-            joinColumns = @JoinColumn(name = "priceComponentName"),
+            name = "linked_price_components",
+            joinColumns = @JoinColumn(name = "attached_movie"),
             inverseJoinColumns = @JoinColumn(name = "title")
     )
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
     private List<Movie> attachedMovies;
 
-    @ManyToMany
+    @ManyToMany(targetEntity = Screening.class,
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(
-            name = "screening_price_components",
-            joinColumns = @JoinColumn(name = "priceComponentName"),
-            inverseJoinColumns = @JoinColumn(name = "id")
+            name = "linked_price_components",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "title")
     )
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
@@ -59,9 +62,9 @@ public class PriceComponent {
 
     @Override
     public String toString() {
-        return "PriceComponent{" +
-                "priceComponentName='" + priceComponentName + '\'' +
-                ", price=" + price +
-                '}';
+        return "PriceComponent{"
+                + "priceComponentName='" + priceComponentName + '\''
+                + ", price=" + price
+                + '}';
     }
 }

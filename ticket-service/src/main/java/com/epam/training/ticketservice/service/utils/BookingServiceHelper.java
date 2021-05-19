@@ -26,7 +26,7 @@ public class BookingServiceHelper {
     private final TicketRepository ticketRepository;
     private final PriceCalculator priceCalculator;
 
-    private List<Ticket> ticketsToSave;
+    private List<Ticket> ticketsList;
 
     public BookingServiceHelper(ActiveUserStore activeUserStore,
                                 SeatRepository seatRepository,
@@ -36,12 +36,12 @@ public class BookingServiceHelper {
         this.seatRepository = seatRepository;
         this.ticketRepository = ticketRepository;
         this.priceCalculator = priceCalculator;
-        this.ticketsToSave = new ArrayList<>();
+        this.ticketsList = new ArrayList<>();
     }
 
     public BookingActionResult setTicketsToSave(List<SeatIntPair> seatsToBook,
                                                 Screening screening, Room roomOfScreening) {
-        ticketsToSave = new ArrayList<>();
+        ticketsList = new ArrayList<>();
 
         Ticket ticketToVerify;
         SeatIntPair seatIntPair = null;
@@ -52,7 +52,7 @@ public class BookingServiceHelper {
                 if (ticketToVerify == null) {
                     return new BookingActionResult("NoSeat", false, seatIntPair);
                 }
-                ticketsToSave.add(ticketToVerify);
+                ticketsList.add(ticketToVerify);
             }
         } catch (AlreadyBoundException e) {
             return new BookingActionResult("Taken", false, seatIntPair);
@@ -102,8 +102,8 @@ public class BookingServiceHelper {
         return new BookingActionResult("NoNullValue", true);
     }
 
-    public List<Ticket> getTicketsToSave() {
-        return ticketsToSave;
+    public List<Ticket> getTicketsList() {
+        return ticketsList;
     }
 
 

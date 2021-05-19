@@ -23,9 +23,9 @@ public class Application {
     @PostConstruct
     public void createAdminAccount() {
         registrationService.register(new User("admin", "admin", User.Role.ADMIN));
-        try{
+        try {
             basePriceService.getBasePrice();
-        }catch (NoSuchElementException t) {
+        } catch (NoSuchElementException t) {
             basePriceService.updateBasePrice(1500);
         }
     }

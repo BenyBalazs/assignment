@@ -28,7 +28,7 @@ public class UserCommandHandler {
     public String singIn(String username, String password) {
         try {
             if (logInService.logIn(username, password)) {
-                return "";
+                return null;
             }
             return "Login failed due to incorrect credentials";
         } catch (UserAlreadyLoggedInException e) {
@@ -40,7 +40,7 @@ public class UserCommandHandler {
     public String singInPrivileged(String username, String password) {
         try {
             if (privilegedLogInService.logIn(username,password)) {
-                return "";
+                return null;
             }
             return "Login failed due to incorrect credentials";
         } catch (UserAlreadyLoggedInException | NotAuthorizedOperationException e) {
@@ -52,7 +52,7 @@ public class UserCommandHandler {
     public String signOut() {
         try {
             signOutService.singOut();
-            return "";
+            return null;
         } catch (UserNotLoggedInException e) {
             return e.getMessage();
         }

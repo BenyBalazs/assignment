@@ -38,7 +38,7 @@ public class Room {
     @EqualsAndHashCode.Exclude
     private List<Screening> screeningList;
 
-    @ManyToMany(mappedBy = "attachedRooms")
+    @ManyToMany(targetEntity = PriceComponent.class, mappedBy = "attachedRooms")
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
     private List<PriceComponent> attachedComponents;

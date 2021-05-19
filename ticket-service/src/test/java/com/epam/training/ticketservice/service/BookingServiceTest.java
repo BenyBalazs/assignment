@@ -84,7 +84,7 @@ public class BookingServiceTest {
     @Test
     public void testBookSeatShouldThrowUserNotLoggedInExceptionWhenTheUserNotLoggedIn() {
         activeUserStore.setActiveUser(null);
-        assertThrows(UserNotLoggedInException.class, () -> underTest.bookSeat("asd", "asd", LocalDateTime.now(), new ArrayList<>()));
+        assertThrows(UserNotLoggedInException.class, () -> underTest.bookSeat("asd", "asd", LocalDateTime.now(), new ArrayList<>(), true));
     }
 
     @SneakyThrows
@@ -94,7 +94,7 @@ public class BookingServiceTest {
         activeUserStore.setActiveUser(new User("asd", "asd", User.Role.ADMIN));
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.empty());
 
-        assertThat(underTest.bookSeat("asd", "ads", LocalDateTime.now(), new ArrayList<>()), equalTo(new BookingActionResult("NoMovie", false)));
+        assertThat(underTest.bookSeat("asd", "ads", LocalDateTime.now(), new ArrayList<>(), true), equalTo(new BookingActionResult("NoMovie", false)));
 
     }
 
@@ -106,7 +106,7 @@ public class BookingServiceTest {
         when(movieRepository.findById(Mockito.any(String.class))).thenReturn(Optional.of(movie));
         when(roomRepository.findById(Mockito.any(String.class))).thenReturn(Optional.empty());
 
-        assertThat(underTest.bookSeat("asd", "ads", LocalDateTime.now(), new ArrayList<>()), equalTo(new BookingActionResult("NoRoom", false)));
+        assertThat(underTest.bookSeat("asd", "ads", LocalDateTime.now(), new ArrayList<>(), true), equalTo(new BookingActionResult("NoRoom", false)));
 
     }
     @SneakyThrows
@@ -119,7 +119,7 @@ public class BookingServiceTest {
         when(screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(null);
 
-        assertThat(underTest.bookSeat("asd", "ads", LocalDateTime.now(), new ArrayList<>()), equalTo(new BookingActionResult("NoScreening", false)));
+        assertThat(underTest.bookSeat("asd", "ads", LocalDateTime.now(), new ArrayList<>(), true), equalTo(new BookingActionResult("NoScreening", false)));
 
     }
 
@@ -134,7 +134,7 @@ public class BookingServiceTest {
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(Mockito.any(Movie.class), Mockito.any(Room.class), Mockito.any(LocalDateTime.class))).thenReturn(screening);
         when(seatRepository.findByRoomAndRowPositionAndColPosition(Mockito.any(Room.class), Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(null);
 
-        assertThat(underTest.bookSeat("asd", "asd", LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), List.of(new SeatIntPair(1,2))), equalTo(new BookingActionResult("NoSeat", false, new SeatIntPair(1,2))));
+        assertThat(underTest.bookSeat("asd", "asd", LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), List.of(new SeatIntPair(1,2)), true), equalTo(new BookingActionResult("NoSeat", false, new SeatIntPair(1,2))));
     }
 
     @SneakyThrows
@@ -151,7 +151,7 @@ public class BookingServiceTest {
         Ticket ticket = new Ticket(1, 1500, seat, activeUserStore.getActiveUser(), screening);
         when(ticketRepository.findBySeatAndScreening(Mockito.any(Seat.class), Mockito.any(Screening.class))).thenReturn(ticket);
 
-        assertThat(underTest.bookSeat("asd", "asd", LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), List.of(new SeatIntPair(1,6))), equalTo(new BookingActionResult("Taken", false, new SeatIntPair(1, 6))));
+        assertThat(underTest.bookSeat("asd", "asd", LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), List.of(new SeatIntPair(1,6)), true), equalTo(new BookingActionResult("Taken", false, new SeatIntPair(1, 6))));
 
     }
 
@@ -169,7 +169,7 @@ public class BookingServiceTest {
         when(ticketRepository.findBySeatAndScreening(Mockito.any(Seat.class), Mockito.any(Screening.class))).thenReturn(null);
         when(priceCalculator.calculateTicketPrice(Mockito.any(Screening.class), Mockito.any(Seat.class))).thenReturn(1500);
 
-        assertThat(underTest.bookSeat("asd", "asd", LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), List.of(new SeatIntPair(1,6))), equalTo(new BookingActionResult("SeatsBooked", true, 1500)));
+        assertThat(underTest.bookSeat("asd", "asd", LocalDateTime.parse("2021-04-24 19:00", dateTimeFormatter), List.of(new SeatIntPair(1,6)), true), equalTo(new BookingActionResult("SeatsBooked", true, 1500)));
     }
 
 

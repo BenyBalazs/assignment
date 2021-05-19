@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -31,7 +32,7 @@ public class Movie {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Screening> screeningList;
 
-    @ManyToMany(mappedBy = "attachedMovies")
+    @ManyToMany(targetEntity = PriceComponent.class, mappedBy = "attachedMovies", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
     private List<PriceComponent> attachedComponents;

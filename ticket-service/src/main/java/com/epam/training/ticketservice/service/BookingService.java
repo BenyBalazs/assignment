@@ -51,16 +51,20 @@ public class BookingService implements BookingServiceInterface {
     public BookingActionResult bookSeat(String movieTitle,
                                         String roomName,
                                         LocalDateTime startOfScreening,
-                                        List<SeatIntPair> seatsToBook) throws UserNotLoggedInException {
+                                        List<SeatIntPair> seatsToBook,
+                                        boolean persist) throws UserNotLoggedInException {
 
-        authorizationService.userIsLoggedIn();
+        if (persist) {
+            authorizationService.userIsLoggedIn();
+        }
 
         Movie screenedMovie = movieRepository.findById(movieTitle).orElse(null);
         Room roomOfScreening = roomRepository.findById(roomName).orElse(null);
         Screening screening = screeningRepository
                 .findByMovieAndRoomOfScreeningAndStartOfScreening(screenedMovie, roomOfScreening, startOfScreening);
 
-        BookingActionResult nullCheckResult = bookingServiceHelper.nullChecker(screenedMovie, roomOfScreening, screening);
+        BookingActionResult nullCheckResult =
+                bookingServiceHelper.nullChecker(screenedMovie, roomOfScreening, screening);
 
         if (!nullCheckResult.isSuccess()) {
             return nullCheckResult;
@@ -69,20 +73,20 @@ public class BookingService implements BookingServiceInterface {
         BookingActionResult ticketActionResult
                 = bookingServiceHelper.setTicketsToSave(seatsToBook, screening, roomOfScreening);
 
-        List<Ticket> ticketsToSave = bookingServiceHelper.getTicketsToSave();
+        List<Ticket> ticketsToSave = bookingServiceHelper.getTicketsList();
 
         if (!ticketActionResult.isSuccess()) {
             return ticketActionResult;
         }
 
-        for (var tickets: ticketsToSave) {
-            ticketRepository.save(tickets);
+        if (persist) {
+            for (var tickets : ticketsToSave) {
+                ticketRepository.save(tickets);
+            }
         }
 
         return new BookingActionResult("SeatsBooked", true,
                 bookingServiceHelper.calculateTicketPrice(ticketsToSave));
     }
-
-
 
 }

@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {LogInService.class, ActiveUserStore.class, PrivilegedLogInService.class, SignOutService.class, AuthorizationService.class})
@@ -52,7 +53,7 @@ public class LogInCommandTest {
         users.add(new User("admin", "admin", User.Role.ADMIN));
 
 
-        assertThat(logInCommand.singIn("admin", "admin"), equalTo(""));
+        assertThat(logInCommand.singIn("admin", "admin"), nullValue());
     }
 
     @Test

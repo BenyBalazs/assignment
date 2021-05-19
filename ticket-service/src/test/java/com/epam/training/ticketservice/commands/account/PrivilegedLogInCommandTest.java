@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {LogInService.class, ActiveUserStore.class})
@@ -43,7 +44,7 @@ public class PrivilegedLogInCommandTest {
     @Test
     public void testExecuteShouldReturnEmptyStringWhenExecutionWasSuccessful() {
         when(privilegedLogInService.logIn(Mockito.any(String.class), Mockito.anyString())).thenReturn(true);
-        assertThat(logInCommand.singInPrivileged("asd", "asd"), equalTo(""));
+        assertThat(logInCommand.singInPrivileged("asd", "asd"), nullValue());
     }
 
     @SneakyThrows
