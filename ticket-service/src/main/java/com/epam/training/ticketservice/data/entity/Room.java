@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -38,7 +37,8 @@ public class Room {
     @EqualsAndHashCode.Exclude
     private List<Screening> screeningList;
 
-    @ManyToMany(targetEntity = PriceComponent.class, mappedBy = "attachedRooms")
+    @OneToMany(mappedBy = "attachedRoom",
+            cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
     private List<PriceComponent> attachedComponents;

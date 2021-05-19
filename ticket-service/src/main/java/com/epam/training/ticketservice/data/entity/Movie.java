@@ -11,7 +11,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -32,7 +31,8 @@ public class Movie {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Screening> screeningList;
 
-    @ManyToMany(targetEntity = PriceComponent.class, mappedBy = "attachedMovies", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "attachedMovie",
+            cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
     @LazyCollection(LazyCollectionOption.FALSE)
     @EqualsAndHashCode.Exclude
     private List<PriceComponent> attachedComponents;

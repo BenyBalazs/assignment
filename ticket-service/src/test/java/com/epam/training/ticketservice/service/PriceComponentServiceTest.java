@@ -37,7 +37,7 @@ public class PriceComponentServiceTest {
     private static final Room ROOM_OF_SCREENING  = new Room(ROOM_NAME, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     private static final Movie MOVIE  = new Movie(TITLE, "someGenre", 99, new ArrayList<>(), new ArrayList<>());
     private static final Screening FOUND_SCREENING = new Screening(1, MOVIE, ROOM_OF_SCREENING, START_OF_SCREENING, new ArrayList<>());
-    private static final PriceComponent FOUND_PRICE_COMPONENT  = new PriceComponent(PRICE_COMPONENT_NAME, PRICE, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+    private static final PriceComponent FOUND_PRICE_COMPONENT  = new PriceComponent(PRICE_COMPONENT_NAME, PRICE, null, null, null);
 
     private static final ActionResult NO_PRICE_COMPONENT_RESULT = new ActionResult("NoPriceComponent", false);
     private static final ActionResult SUCCESS  = new ActionResult("ComponentAttached", true);

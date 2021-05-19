@@ -15,8 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.time.LocalDateTime;
@@ -44,7 +44,8 @@ public class Screening {
     @Column(nullable = false)
     private LocalDateTime startOfScreening;
 
-    @ManyToMany(targetEntity = PriceComponent.class, mappedBy = "attachedScreenings", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "attachedScreening",
+            cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
     @EqualsAndHashCode.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<PriceComponent> attachedComponents;

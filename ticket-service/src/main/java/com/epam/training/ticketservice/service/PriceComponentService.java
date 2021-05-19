@@ -66,12 +66,8 @@ public class PriceComponentService implements PriceComponentServiceInterface {
             return NO_ROOM_RESULT;
         }
 
-        componentToAttach.getAttachedRooms().add(roomToAttach);
-        roomToAttach.getAttachedComponents().add(componentToAttach);
-
+        componentToAttach.setAttachedRoom(roomToAttach);
         priceComponentRepository.save(componentToAttach);
-        roomRepository.save(roomToAttach);
-        System.out.println("asdasdasdasd");
 
         return SUCCESS_RESULT;
     }
@@ -98,12 +94,10 @@ public class PriceComponentService implements PriceComponentServiceInterface {
             return NO_MOVE_RESULT;
         }
 
-        componentToAttach.getAttachedMovies().add(movieToAttach);
-        movieToAttach.getAttachedComponents().add(componentToAttach);
-
+        componentToAttach.setAttachedMovie(movieToAttach);
         priceComponentRepository.save(componentToAttach);
-        movieRepository.save(movieToAttach);
-        System.out.println("asdasdasdasd");
+
+
 
         return SUCCESS_RESULT;
     }
@@ -130,12 +124,8 @@ public class PriceComponentService implements PriceComponentServiceInterface {
             return NO_PRICE_COMPONENT;
         }
 
-        componentToAttach.getAttachedScreenings().add(screeningToAttach);
-        screeningToAttach.getAttachedComponents().add(componentToAttach);
-
+        componentToAttach.setAttachedScreening(screeningToAttach);
         priceComponentRepository.save(componentToAttach);
-        screeningRepository.save(screeningToAttach);
-        System.out.println("asdasdasdasd");
 
         return SUCCESS_RESULT;
 
