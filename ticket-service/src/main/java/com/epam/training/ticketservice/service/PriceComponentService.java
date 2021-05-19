@@ -83,14 +83,12 @@ public class PriceComponentService implements PriceComponentServiceInterface {
         try {
             componentToAttach = priceComponentRepository.findById(priceComponentName).get();
         } catch (NoSuchElementException e) {
-            System.out.println("fikafej");
             return NO_PRICE_COMPONENT;
         }
 
         Movie movieToAttach = movieRepository.findById(title).orElse(null);
 
         if (movieToAttach == null) {
-            System.out.println("huhuh");
             return NO_MOVE_RESULT;
         }
 
