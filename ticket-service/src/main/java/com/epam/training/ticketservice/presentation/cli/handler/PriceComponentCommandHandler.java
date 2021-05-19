@@ -54,7 +54,7 @@ public class PriceComponentCommandHandler {
         System.out.println(componentName);
         System.out.println(movieTitle);
         try {
-            result = priceComponentService.attachPriceComponentToMovie(componentName, movieTitle);
+            result = priceComponentService.attachPriceComponentToMovie(movieTitle, componentName);
         } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
             return e.getMessage();
         }
@@ -72,7 +72,7 @@ public class PriceComponentCommandHandler {
         ActionResult result;
 
         try {
-            result = priceComponentService.attachPriceComponentToRoom(componentName, roomName);
+            result = priceComponentService.attachPriceComponentToRoom(roomName, componentName);
         } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
             return e.getMessage();
         }

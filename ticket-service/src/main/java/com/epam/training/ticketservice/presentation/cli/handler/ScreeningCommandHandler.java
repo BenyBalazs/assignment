@@ -39,7 +39,7 @@ public class ScreeningCommandHandler {
             } else if (actionResult.getMessage().equals("BrakePeriod")) {
                 return "This would start in the break period after another screening in this room";
             }
-            return actionResult.getMessage();
+            return null;
         } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
             return e.getMessage();
         }
@@ -51,7 +51,7 @@ public class ScreeningCommandHandler {
 
         try {
             screeningService.deleteScreening(title, roomName, start);
-            return "";
+            return null;
         } catch (UserNotLoggedInException | NotAuthorizedOperationException e) {
             return e.getMessage();
         }

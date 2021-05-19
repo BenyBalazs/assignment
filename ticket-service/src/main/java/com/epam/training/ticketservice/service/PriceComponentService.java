@@ -97,8 +97,6 @@ public class PriceComponentService implements PriceComponentServiceInterface {
         componentToAttach.setAttachedMovie(movieToAttach);
         priceComponentRepository.save(componentToAttach);
 
-
-
         return SUCCESS_RESULT;
     }
 
